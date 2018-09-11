@@ -9,19 +9,8 @@ call vundle#rc()
 Plugin 'VundleVim/Vundle.vim'
 
 " Visual stuff
-Plugin 'itchyny/lightline.vim'
-Plugin 'mgee/lightline-bufferline'
-" Lightline buffer config
-set showtabline=2
-let g:lightline#bufferline#show_number  = 1
-let g:lightline#bufferline#shorten_path = 0
-let g:lightline#bufferline#unnamed      = '[No Name]'
-
-let g:lightline = {}
-let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
-let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
-let g:lightline.component_type   = {'buffers': 'tabsel'}
-
+Plugin 'vim-airline/vim-airline'
+let g:airline#extensions#tabline#enabled = 1
 
 " required!
 Plugin 'gmarik/vundle'
@@ -259,6 +248,10 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+
+" navigate buffers with arrow keys
+nnoremap <Left> :bprev<CR>
+nnoremap <Right> :bnext<CR>
 
 " When editing a file, always jump to the last cursor position
 autocmd BufReadPost *
