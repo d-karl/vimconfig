@@ -8,45 +8,61 @@ call vundle#rc()
 " let Vundle manage Vundle
 Plugin 'VundleVim/Vundle.vim'
 
+" Visual stuff
+Plugin 'itchyny/lightline.vim'
+Plugin 'mgee/lightline-bufferline'
+" Lightline buffer config
+set showtabline=2
+let g:lightline#bufferline#show_number  = 1
+let g:lightline#bufferline#shorten_path = 0
+let g:lightline#bufferline#unnamed      = '[No Name]'
+
+let g:lightline = {}
+let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
+let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+let g:lightline.component_type   = {'buffers': 'tabsel'}
+
+
 " required!
 Plugin 'gmarik/vundle'
 
 " Code Completions
 Plugin 'Raimondi/delimitMate'
 Plugin 'Valloric/YouCompleteMe'
-" Plugin 'ervandew/supertab'
+" Ycm settings
+let g:ycm_server_python_interpreter = '/usr/bin/python2'
 
 " Fast navigation
-Plugin 'jwhitley/vim-matchit'
-Plugin 'Lokaltog/vim-easymotion'
+" Plugin 'jwhitley/vim-matchit'
+" Plugin 'Lokaltog/vim-easymotion'
 
 " Fast editing
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'sjl/gundo.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'nathanaelkane/vim-indent-guides'
+" Plugin 'sjl/gundo.vim'
+" Plugin 'godlygeek/tabular'
+" Plugin 'nathanaelkane/vim-indent-guides'
 
 " IDE features
 Plugin 'scrooloose/nerdtree'
-Plugin 'majutsushi/tagbar'
+" Plugin 'majutsushi/tagbar'
 Plugin 'mileszs/ack.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'Lokaltog/vim-powerline'
-Plugin 'scrooloose/syntastic'
-Plugin 'bronson/vim-trailing-whitespace'
+" Plugin 'kien/ctrlp.vim'
+" Plugin 'tpope/vim-fugitive'
+" Plugin 'Lokaltog/vim-powerline'
+" Plugin 'scrooloose/syntastic'
+" Plugin 'bronson/vim-trailing-whitespace'
 
 " Other Utils
 " Plugin 'humiaozuzu/fcitx-status'
-Plugin 'nvie/vim-togglemouse'
+" Plugin 'nvie/vim-togglemouse'
 
 " Syntax/Indent for language enhancement
 " markup language
-Plugin 'tpope/vim-markdown'
+" Plugin 'tpope/vim-markdown'
 " Plugin 'timcharper/textile.vim'
 " Golang
-Plugin 'fatih/vim-go'
+" Plugin 'fatih/vim-go'
 
 " FPs
 Plugin 'kien/rainbow_parentheses.vim'
@@ -55,6 +71,7 @@ Plugin 'kien/rainbow_parentheses.vim'
 " Plugin 'rosstimson/scala-vim-support'
 
 " Color Schemes
+Plugin 'morhetz/gruvbox'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'tomasr/molokai'
 Plugin 'chriskempson/vim-tomorrow-theme'
@@ -77,7 +94,7 @@ syntax on
 "--------
 " color scheme
 set background=dark
-colorscheme molokai
+colorscheme gruvbox
 
 " highlight current line
 au WinLeave * set nocursorline nocursorcolumn
@@ -130,23 +147,23 @@ autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=
 "-----------------
 " Rainbow parentheses for Lisp and variants
 let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['black',       'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
+            \ ['brown',       'RoyalBlue3'],
+            \ ['Darkblue',    'SeaGreen3'],
+            \ ['darkgray',    'DarkOrchid3'],
+            \ ['darkgreen',   'firebrick3'],
+            \ ['darkcyan',    'RoyalBlue3'],
+            \ ['darkred',     'SeaGreen3'],
+            \ ['darkmagenta', 'DarkOrchid3'],
+            \ ['brown',       'firebrick3'],
+            \ ['gray',        'RoyalBlue3'],
+            \ ['black',       'SeaGreen3'],
+            \ ['darkmagenta', 'DarkOrchid3'],
+            \ ['Darkblue',    'firebrick3'],
+            \ ['darkgreen',   'RoyalBlue3'],
+            \ ['darkcyan',    'SeaGreen3'],
+            \ ['darkred',     'DarkOrchid3'],
+            \ ['red',         'firebrick3'],
+            \ ]
 let g:rbpt_max = 16
 autocmd Syntax lisp,scheme,clojure,racket RainbowParenthesesToggle
 
@@ -170,13 +187,13 @@ let g:tagbar_sort = 0
 let g:tagbar_compact = 1
 " tag for markdown
 let g:tagbar_type_markdown = {
-	\ 'ctagstype' : 'markdown',
-	\ 'kinds' : [
-		\ 'h:Heading_L1',
-		\ 'i:Heading_L2',
-		\ 'k:Heading_L3'
-	\ ]
-\ }
+            \ 'ctagstype' : 'markdown',
+            \ 'kinds' : [
+            \ 'h:Heading_L1',
+            \ 'i:Heading_L2',
+            \ 'k:Heading_L3'
+            \ ]
+            \ }
 
 " Nerd Tree
 let NERDChristmasTree=0
@@ -216,7 +233,7 @@ autocmd FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType c setlocal omnifunc=ccomplete#Complete
 if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
+    let g:neocomplcache_omni_patterns = {}
 endif
 let g:neocomplcache_omni_patterns.erlang = '[a-zA-Z]\|:'
 
@@ -245,11 +262,11 @@ nnoremap <c-l> <c-w>l
 
 " When editing a file, always jump to the last cursor position
 autocmd BufReadPost *
-      \ if ! exists("g:leave_my_cursor_position_alone") |
-      \     if line("'\"") > 0 && line ("'\"") <= line("$") |
-      \         exe "normal g'\"" |
-      \     endif |
-      \ endif
+            \ if ! exists("g:leave_my_cursor_position_alone") |
+            \     if line("'\"") > 0 && line ("'\"") <= line("$") |
+            \         exe "normal g'\"" |
+            \     endif |
+            \ endif
 
 " w!! to sudo & write a file
 cmap w!! %!sudo tee >/dev/null %
