@@ -10,7 +10,47 @@ Plugin 'VundleVim/Vundle.vim'
 
 " Visual stuff
 Plugin 'vim-airline/vim-airline'
+" The following attempts to use a nice triangle separator for airline.
+" this did not work in chrom os ssh client as the triangles were too small
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#keymap_ignored_filetypes = ['vimfiler', 'nerdtree']
+let g:airline#extensions#tabline#show_close_button = 0
+let airline#extensions#tabline#ignore_bufadd_pat = '\c\vgundo|undotree|vimfiler|tagbar|nerd_tree'
+
+" enable/disable YCM integration >
+let g:airline#extensions#ycm#enabled = 1
+" set error count prefix >
+let g:airline#extensions#ycm#error_symbol = 'E:'
+" set warning count prefix >
+let g:airline#extensions#ycm#warning_symbol = 'W:'
+
+" let g:airline#extensions#tabline#left_sep = '>'
+" let g:airline#extensions#tabline#left_alt_sep = '|'
+" let g:airline#extensions#tabline#right_sep = '<'
+" let g:airline#extensions#tabline#left_alt_sep = '<'
+
+let g:airline#extensions#tabline#ignore_bufadd_pat = 'gundo|undotree|vimfiler|tagbar|nerd_tree|NERD_tree|startify'
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>- <Plug>AirlineSelectPrevTab
+nmap <leader>+ <Plug>AirlineSelectNextTab
+
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+
+Plugin 'vim-airline/vim-airline-themes'
+
+" XTabline to improve on Airline
+Plug 'mg979/vim-xtabline'
 
 " required!
 Plugin 'gmarik/vundle'
@@ -34,10 +74,16 @@ Plugin 'scrooloose/nerdcommenter'
 
 " IDE features
 Plugin 'scrooloose/nerdtree'
+Plugin 'https://github.com/wesQ3/vim-windowswap'
+
+" Windowswap Airline integration
+let g:airline#extensions#windowswap#enabled = 1
+let g:airline#extensions#windowswap#indicator_text = 'WS'
+
 " Plugin 'majutsushi/tagbar'
 Plugin 'mileszs/ack.vim'
 " Plugin 'kien/ctrlp.vim'
-" Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 " Plugin 'Lokaltog/vim-powerline'
 " Plugin 'scrooloose/syntastic'
 " Plugin 'bronson/vim-trailing-whitespace'
@@ -83,7 +129,7 @@ syntax on
 "--------
 " color scheme
 set background=dark
-colorscheme gruvbox
+colorscheme Tomorrow-Night-Eighties
 
 " highlight current line
 au WinLeave * set nocursorline nocursorcolumn
