@@ -101,7 +101,7 @@ Plugin 'https://github.com/wesQ3/vim-windowswap'
 let g:airline#extensions#windowswap#enabled = 1
 let g:airline#extensions#windowswap#indicator_text = 'WS'
 
-" Plugin 'majutsushi/tagbar'
+Plugin 'majutsushi/tagbar'
 Plugin 'mileszs/ack.vim'
 " Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-fugitive'
@@ -174,7 +174,6 @@ set backspace=indent,eol,start                                    " More powerfu
 set t_Co=256                                                      " Explicitly tell vim that the terminal has 256 colors "
 set mouse=a                                                       " use mouse in all modes
 set report=0                                                      " always report number of lines changed                "
-set nowrap                                                        " dont wrap lines
 set scrolloff=5                                                   " 5 lines above/below cursor when scrolling
 set number                                                        " show line numbers
 set relativenumber                                                " show relativenumber
@@ -243,6 +242,8 @@ let g:tagbar_width=30
 let g:tagbar_autofocus = 1
 let g:tagbar_sort = 0
 let g:tagbar_compact = 1
+let g:tagbar_autoclose = 1
+
 " tag for markdown
 let g:tagbar_type_markdown = {
             \ 'ctagstype' : 'markdown',
@@ -279,6 +280,7 @@ noremap <leader>fh :History<CR>
 noremap <leader>fs :History/<CR>
 noremap <leader>fc :Commands<CR>
 noremap <leader>f? :Helptags<CR>
+noremap <leader>fl :Lines<CR>
 
 " vim fugitive keybindings`
 noremap <leader>gd :Gvdiff<CR>
@@ -289,12 +291,12 @@ noremap <leader>gvd :Gvdiff<CR>
 " Keybindings for plugin toggle
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
-nmap <F5> :TagbarToggle<cr>
+nmap <F5> :TagbarOpen<cr>
 nmap <F6> :NERDTreeToggle<cr>
 nmap <F3> :UndotreeToggle<cr>
 nmap <F4> :IndentGuidesToggle<cr>
 nmap  <D-/> :
-nnoremap <leader>a :Ack
+nnoremap <leader>a :Ack<space>
 nnoremap <leader>v V`]
 
 " Useful Functions
@@ -305,9 +307,17 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
+" selection shortcuts
+nnoremap <leader>sa ggVG
+
 " navigate buffers with arrow keys
 nnoremap <Left> :bprev<CR>
 nnoremap <Right> :bnext<CR>
+
+" navigate buffers with personal shortcuts
+nnoremap <leader>j :bprev<CR>
+nnoremap <leader>k :bnext<CR>
+nnoremap <leader>x :bdel<CR>
 
 " When editing a file, always jump to the last cursor position
 autocmd BufReadPost *
