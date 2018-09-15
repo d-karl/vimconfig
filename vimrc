@@ -120,11 +120,9 @@ Plugin 'tpope/vim-fugitive'
 " Golang
 " Plugin 'fatih/vim-go'
 
-" FPs
-Plugin 'kien/rainbow_parentheses.vim'
-" Plugin 'wlangstroth/vim-racket'
-" Plugin 'vim-scripts/VimClojure'
-" Plugin 'rosstimson/scala-vim-support'
+" Rainbow parantheses
+Plugin 'luochen1990/rainbow'
+let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle
 
 " Color Schemes
 Plugin 'morhetz/gruvbox'
@@ -202,28 +200,6 @@ autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=
 "-----------------
 " Plugin settings
 "-----------------
-" Rainbow parentheses for Lisp and variants
-let g:rbpt_colorpairs = [
-            \ ['brown',       'RoyalBlue3'],
-            \ ['Darkblue',    'SeaGreen3'],
-            \ ['darkgray',    'DarkOrchid3'],
-            \ ['darkgreen',   'firebrick3'],
-            \ ['darkcyan',    'RoyalBlue3'],
-            \ ['darkred',     'SeaGreen3'],
-            \ ['darkmagenta', 'DarkOrchid3'],
-            \ ['brown',       'firebrick3'],
-            \ ['gray',        'RoyalBlue3'],
-            \ ['black',       'SeaGreen3'],
-            \ ['darkmagenta', 'DarkOrchid3'],
-            \ ['Darkblue',    'firebrick3'],
-            \ ['darkgreen',   'RoyalBlue3'],
-            \ ['darkcyan',    'SeaGreen3'],
-            \ ['darkred',     'DarkOrchid3'],
-            \ ['red',         'firebrick3'],
-            \ ]
-let g:rbpt_max = 16
-autocmd Syntax lisp,scheme,clojure,racket RainbowParenthesesToggle
-
 " tabbar
 let g:Tb_MaxSize = 2
 let g:Tb_TabWrap = 1
@@ -287,6 +263,13 @@ noremap <leader>gd :Gvdiff<CR>
 noremap <leader>gs :Gstatus<CR>
 noremap <leader>gsd :Gsdiff<CR>
 noremap <leader>gvd :Gvdiff<CR>
+noremap <leader>gc  :Gcommit<CR>
+
+" Rainbow Parantheses
+nnoremap <leader>ra :RainbowToggle<CR>
+let g:rainbow_conf = {
+            \ 'ctermfgs': ['lightblue', 'lightyellow', 'red', 'darkgreen', 'darkyellow', 'lightred', 'yellow', 'cyan', 'magenta', 'white']
+            \}
 
 " Keybindings for plugin toggle
 nnoremap <F2> :set invpaste paste?<CR>
