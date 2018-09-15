@@ -89,6 +89,7 @@ let g:ycm_server_python_interpreter = '/usr/bin/python2'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
 " Plugin 'sjl/gundo.vim'
+Plugin 'mbbill/undotree'
 " Plugin 'godlygeek/tabular'
 " Plugin 'nathanaelkane/vim-indent-guides'
 
@@ -134,6 +135,8 @@ Plugin 'chriskempson/vim-tomorrow-theme'
 " TCL support
 Plugin 'LStinson/TclShell-Vim'
 filetype plugin indent on     " required!
+Plugin 'vim-scripts/EvalSelection.vim'
+let g:evalSelectionRubyDir = '~/.vim/bundle/EvalSelection.vim/ruby/'
 
 " encoding dectection
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
@@ -275,14 +278,20 @@ noremap <leader>fw :Windows<CR>
 noremap <leader>fh :History<CR>
 noremap <leader>fs :History/<CR>
 noremap <leader>fc :Commands<CR>
+noremap <leader>f? :Helptags<CR>
 
+" vim fugitive keybindings`
+noremap <leader>gd :Gvdiff<CR>
+noremap <leader>gs :Gstatus<CR>
+noremap <leader>gsd :Gsdiff<CR>
+noremap <leader>gvd :Gvdiff<CR>
 
 " Keybindings for plugin toggle
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 nmap <F5> :TagbarToggle<cr>
 nmap <F6> :NERDTreeToggle<cr>
-nmap <F3> :GundoToggle<cr>
+nmap <F3> :UndotreeToggle<cr>
 nmap <F4> :IndentGuidesToggle<cr>
 nmap  <D-/> :
 nnoremap <leader>a :Ack
