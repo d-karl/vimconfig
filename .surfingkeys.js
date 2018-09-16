@@ -30,7 +30,7 @@ mapkey('P', 'Open link from clipboard', function() {
 
 
 // --- Site-specific mappings ---//
-const siteleader = "\\";
+const siteleader = "<Space>";
 const Hint = (selector, action = Hints.dispatchMouseClick) => () => Hints.create(selector, action);
 
 function mapsitekey(domainRegex, key, desc, f, opts = {}) {
