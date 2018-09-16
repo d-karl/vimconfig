@@ -65,5 +65,5 @@ mapsitekeys("youtube.com", [
   ["gh", "Goto homepage", () => window.location.assign("https://www.youtube.com/feed/subscriptions?flow=2")],
   ["f", "Toggle fullscreen", ytFullscreen],
   ["<Space>", "Play/pause", Hint(".ytp-play-button")],
-], { leader: "" });
+], { leader: "\\" });
 
