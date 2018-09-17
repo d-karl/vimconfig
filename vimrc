@@ -101,6 +101,20 @@ Plugin 'https://github.com/wesQ3/vim-windowswap'
 let g:airline#extensions#windowswap#enabled = 1
 let g:airline#extensions#windowswap#indicator_text = 'WS'
 
+" Snippets
+Plugin 'SirVer/ultisnips'
+
+" Snippets are separated from the engine. Add this if you want them:
+Plugin 'honza/vim-snippets'
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<C-j>"
+let g:UltiSnipsJumpForwardTrigger="<C-j>"
+let g:UltiSnipsJumpBackwardTrigger="<C-k>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
 Plugin 'majutsushi/tagbar'
 Plugin 'mileszs/ack.vim'
 " Plugin 'kien/ctrlp.vim'
@@ -290,6 +304,9 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
+" jk in insert mode to exit
+inoremap jk <Esc>
+
 " selection shortcuts
 nnoremap <leader>sa ggVG
 
@@ -301,6 +318,8 @@ nnoremap <Right> :bnext<CR>
 nnoremap <leader>j :bprev<CR>
 nnoremap <leader>k :bnext<CR>
 nnoremap <leader>x :bdel<CR>
+nnoremap gb :bnext<CR>
+nnoremap gB :bprev<CR>
 
 " When editing a file, always jump to the last cursor position
 autocmd BufReadPost *
