@@ -86,8 +86,8 @@ Plugin 'Valloric/YouCompleteMe'
 let g:ycm_server_python_interpreter = '/usr/bin/python2'
 
 " Fast navigation
-" Plugin 'jwhitley/vim-matchit'
-" Plugin 'Lokaltog/vim-easymotion'
+Plugin 'jwhitley/vim-matchit'
+Plugin 'Lokaltog/vim-easymotion'
 
 " Fast editing
 Plugin 'tpope/vim-surround'
@@ -124,9 +124,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'ludovicchabant/vim-gutentags'
 
 Plugin 'mileszs/ack.vim'
-" Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-fugitive'
-" Plugin 'Lokaltog/vim-powerline'
 " Plugin 'scrooloose/syntastic'
 " Plugin 'bronson/vim-trailing-whitespace'
 
@@ -210,8 +208,6 @@ set expandtab       " expand tab to space
 set smartindent     " indent when
 set tabstop=40      " tab width
 set softtabstop=4   " backspace
-set shiftwidth=4    " indent width
-" set textwidth=79
 " set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
 
 autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
@@ -231,7 +227,13 @@ hi Tb_VisibleNormal ctermbg=252 ctermfg=235
 hi Tb_VisibleChanged guifg=green ctermbg=252 ctermfg=white
 
 " easy-motion
-let g:EasyMotion_leader_key = '<Leader>'
+nnoremap <leader>n <Plug>(easymotion-jumptoanywhere)
+let g:EasyMotion_re_anywhere = '\v' .
+  \       '(<.|^$)' . '|' .
+  \       '(.>|^$)' . '|' .
+  \       '(\l)\zs(\u)' . '|' .
+  \       '(_\zs.)' . '|' .
+  \       '(#\zs.)'
 
 " Tagbar
 let g:tagbar_left=1
