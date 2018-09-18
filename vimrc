@@ -11,11 +11,13 @@ call vundle#rc()
 Plugin 'VundleVim/Vundle.vim'
 
 " Visual stuff
+" use visual bell instead of beeping
+set visualbell
 Plugin 'vim-airline/vim-airline'
 " The following attempts to use a nice triangle separator for airline.
 " this did not work in chrom os ssh client as the triangles were too small
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_splits = 1
 let g:airline#extensions#tabline#keymap_ignored_filetypes = ['vimfiler', 'nerdtree']
 let g:airline#extensions#tabline#show_close_button = 0
 let airline#extensions#tabline#ignore_bufadd_pat = '\c\vgundo|undotree|vimfiler|tagbar|nerd_tree'
@@ -118,6 +120,9 @@ let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 let g:UltiSnipsEditSplit="vertical"
 
 Plugin 'majutsushi/tagbar'
+
+Plugin 'ludovicchabant/vim-gutentags'
+
 Plugin 'mileszs/ack.vim'
 " Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-fugitive'
@@ -273,6 +278,7 @@ noremap <leader>fs :History/<CR>
 noremap <leader>fc :Commands<CR>
 noremap <leader>f? :Helptags<CR>
 noremap <leader>fl :Lines<CR>
+noremap <leader>ft :Tags<CR>
 
 " vim fugitive keybindings`
 noremap <leader>gd :Gvdiff<CR>
@@ -280,6 +286,17 @@ noremap <leader>gs :Gstatus<CR>
 noremap <leader>gsd :Gsdiff<CR>
 noremap <leader>gvd :Gvdiff<CR>
 noremap <leader>gc  :Gcommit<CR>
+
+" always split windows vertically
+set splitright
+set diffopt+=vertical
+silent! set splitvertical
+" dangerously removed an if here
+cabbrev split vert split
+cabbrev hsplit split
+cabbrev help vert help
+noremap <C-w>] :vert botright wincmd ]<CR>
+noremap <C-w><C-]> :vert botright wincmd ]<CR>
 
 " Rainbow Parantheses
 nnoremap <leader>ra :RainbowToggle<CR>
@@ -292,8 +309,7 @@ nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 nmap <F5> :TagbarOpen<cr>
 nmap <F6> :NERDTreeToggle<cr>
-nmap <F3> :UndotreeToggle<cr>
-nmap <F4> :IndentGuidesToggle<cr>
+nmap <F4> :UndotreeToggle<cr>
 nmap  <D-/> :
 nnoremap <leader>a :Ack<space>
 nnoremap <leader>v V`]
@@ -308,6 +324,9 @@ nnoremap <c-l> <c-w>l
 
 " jk in insert mode to exit
 inoremap jk <Esc>
+
+" Shortcut to open tag definition in vsplit
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 " selection shortcuts
 nnoremap <leader>sa ggVG
@@ -353,34 +372,10 @@ nnoremap ; :
 :command Qa qa
 :command QA qa
 
+noremap <leader>cd :colorscheme Tomorrow-Night-Eighties<CR>
+noremap <leader>ch :colorscheme Tomorrow<CR>
+
 " for macvim
 if has("gui_running")
-    "set go=aAce  " remove toolbar
-    "set transparency=2
-    ""不全屏为set nofu
-    set nofu
-    set guifont=Monaco:h13
-    set showtabline=2
-    set columns=140
-    set lines=40
-    set guioptions=mr       "c去掉"
-    set guioptions=         " 隐藏全部
-    set guioptions+=m       " 隐藏菜单栏
-    set guioptions-=T       " 隐藏工具栏
-    set guioptions-=L       " 隐藏左侧滚动条
-    "set guioptions+=r      " 隐藏右侧滚动条
-    "set guioptions-=b      " 隐藏底部滚动条
-    "set showtabline-=0     " 隐藏Tab栏
-    noremap <D-M-Left> :tabprevious<cr>
-    noremap <D-M-Right> :tabnext<cr>
-    map <D-1> 1gt
-    map <D-2> 2gt
-    map <D-3> 3gt
-    map <D-4> 4gt
-    map <D-5> 5gt
-    map <D-6> 6gt
-    map <D-7> 7gt
-    map <D-8> 8gt
-    map <D-9> 9gt
-    map <D-0> :tablast<CR>
+  set guioptions = cm
 endif
