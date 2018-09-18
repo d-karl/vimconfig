@@ -1,3 +1,5 @@
+language en_US.utf8
+
 " Plugins via vundle manager
 
 filetype off                   " required!
@@ -354,7 +356,7 @@ nnoremap ; :
 " for macvim
 if has("gui_running")
     "set go=aAce  " remove toolbar
-    set transparency=2
+    "set transparency=2
     ""不全屏为set nofu
     set nofu
     set guifont=Monaco:h13
