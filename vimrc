@@ -21,6 +21,9 @@ let g:airline#extensions#tabline#show_splits = 1
 let g:airline#extensions#tabline#keymap_ignored_filetypes = ['vimfiler', 'nerdtree']
 let g:airline#extensions#tabline#show_close_button = 0
 let airline#extensions#tabline#ignore_bufadd_pat = '\c\vgundo|undotree|vimfiler|tagbar|nerd_tree'
+let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing', 'long', 'mixed-indent-file' ]
+
+let airline#extensions#syntastic#stl_format_warn = ''
 
 " enable/disable YCM integration >
 let g:airline#extensions#ycm#enabled = 1
@@ -125,7 +128,14 @@ Plugin 'ludovicchabant/vim-gutentags'
 
 Plugin 'mileszs/ack.vim'
 Plugin 'tpope/vim-fugitive'
-" Plugin 'scrooloose/syntastic'
+
+" Syntax checking plus options
+Plugin 'scrooloose/syntastic'
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_tcl_checkers = ["nagelfar"]
+
+
 " Plugin 'bronson/vim-trailing-whitespace'
 
 " Other Utils
@@ -185,8 +195,10 @@ set smartcase
 " editor settings
 set history=1000
 set nocompatible
-set nofoldenable                                                  " disable folding"
 set confirm                                                       " prompt when existing from an unsaved file
+" folding
+set foldenable
+set foldlevelstart=255
 set backspace=indent,eol,start                                    " More powerful backspacing
 set t_Co=256                                                      " Explicitly tell vim that the terminal has 256 colors "
 set mouse=a                                                       " use mouse in all modes
@@ -206,13 +218,12 @@ set virtualedit=onemore
 set autoindent
 set expandtab       " expand tab to space
 set smartindent     " indent when
-set tabstop=40      " tab width
+set tabstop=4      " tab width
+set shiftwidth=4
 set softtabstop=4   " backspace
 " set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
 
 autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
-
-" syntax support
 
 "-----------------
 " Plugin settings
@@ -309,7 +320,7 @@ let g:rainbow_conf = {
 " Keybindings for plugin toggle
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
-nmap <F5> :TagbarOpen<cr>
+nmap <F5> :TagbarToggle<cr>
 nmap <F6> :NERDTreeToggle<cr>
 nmap <F4> :UndotreeToggle<cr>
 nmap  <D-/> :
@@ -324,8 +335,23 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
+" remove trailing whitspace
+nnoremap <leader>rw :%s/\s\+$//e<CR>
+
 " jk in insert mode to exit
 inoremap jk <Esc>
+
+" user shortcuts to move to EOL/BOL
+nnoremap <leader>l $
+nnoremap <leader>h 0
+
+" shortcut to paste last yanked buffer instead of last deleted
+nnoremap <leader>p "0p
+nnoremap <leader>P "0P
+
+" Shortcut to insert empty lines before and after current line
+nnoremap <leader>o o<c-U><Esc>
+nnoremap <leader>O O<c-U><Esc>
 
 " Shortcut to open tag definition in vsplit
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
