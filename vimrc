@@ -198,7 +198,7 @@ set nocompatible
 set confirm                                                       " prompt when existing from an unsaved file
 " folding
 set foldenable
-set foldlevelstart=255
+set foldlevelstart=6
 set backspace=indent,eol,start                                    " More powerful backspacing
 set t_Co=256                                                      " Explicitly tell vim that the terminal has 256 colors "
 set mouse=a                                                       " use mouse in all modes
@@ -248,11 +248,14 @@ let g:EasyMotion_re_anywhere = '\v' .
 
 " Tagbar
 let g:tagbar_left=1
-let g:tagbar_width=30
+let g:tagbar_width=40
 let g:tagbar_autofocus = 1
 let g:tagbar_sort = 0
 let g:tagbar_compact = 1
 let g:tagbar_autoclose = 1
+
+" UndoTree
+set g:undoTree_SplitWidth 40
 
 " tag for markdown
 let g:tagbar_type_markdown = {
@@ -337,6 +340,23 @@ nnoremap <c-l> <c-w>l
 
 " remove trailing whitspace
 nnoremap <leader>rw :%s/\s\+$//e<CR>
+" toggle guide at column 80
+nnoremap <silent><F7> :call <SID>ToggleColorColumn()<cr>
+set colorcolumn=80
+set tw=79       " width of document (used by gd)
+set nowrap      " don't automatically wrap on load
+set fo-=t       " don't automatically wrap text when typing
+let s:color_column_old = 0
+function! s:ToggleColorColumn()
+    if s:color_column_old == 0
+        let s:color_column_old = &colorcolumn
+        windo let &colorcolumn = 0
+    else
+        windo let &colorcolumn=s:color_column_old
+        let s:color_column_old = 0
+    endif
+endfunction
+
 
 " jk in insert mode to exit
 inoremap jk <Esc>
@@ -350,8 +370,8 @@ nnoremap <leader>p "0p
 nnoremap <leader>P "0P
 
 " Shortcut to insert empty lines before and after current line
-nnoremap <leader>o o<c-U><Esc>
-nnoremap <leader>O O<c-U><Esc>
+nnoremap <leader>o o<Esc>d0
+nnoremap <leader>O O<Esc>d0
 
 " Shortcut to open tag definition in vsplit
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
