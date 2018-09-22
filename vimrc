@@ -87,6 +87,43 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'Valloric/YouCompleteMe'
 " Ycm settings
 let g:ycm_server_python_interpreter = '/usr/bin/python2'
+let g:ycm_complete_in_comments = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+
+" function to toggle ycm auto completion, so default vim autocomplete
+" can be used.
+inoremap <C-x> <C-r>=DisableYCMAuto()<CR><C-x>
+
+augroup RestoreYcm
+    autocmd InsertLeave * :call EnableYCMAuto()
+augroup END
+
+function! EnableYCMAuto()
+    if g:ycm_manual_disable == 0
+        let g:ycm_auto_trigger=1
+    endif
+endfunction
+
+function! DisableYCMAuto()
+    if g:ycm_manual_disable == 0
+        let g:ycm_auto_trigger=0
+    endif
+    return ''
+endfunction
+
+let g:ycm_manual_disable = 0
+function! ToggleYcm()
+    if g:ycm_auto_trigger == 0
+        let g:ycm_auto_trigger=1
+        let g:ycm_manual_disable=0
+    else
+        let g:ycm_auto_trigger=0
+        let g:ycm_manual_disable=1
+    endif
+endfunction
+nnoremap <silent> <leader>[ :call ToggleYcm()<CR>
+inoremap <silent> <leader>[ <c-o>:call ToggleYcm()<CR>
+
 
 " Fast navigation
 Plugin 'jwhitley/vim-matchit'
@@ -292,6 +329,7 @@ noremap <leader>fc :Commands<CR>
 noremap <leader>f? :Helptags<CR>
 noremap <leader>fl :Lines<CR>
 noremap <leader>ft :Tags<CR>
+noremap <leader>fm :Marks<CR>
 
 " vim fugitive keybindings`
 noremap <leader>gd :Gvdiff<CR>
