@@ -11,8 +11,7 @@ call vundle#rc()
 Plugin 'VundleVim/Vundle.vim'
 
 " Visual stuff
-" use visual bell instead of beeping
-set visualbell
+" Vim Airline
 Plugin 'vim-airline/vim-airline'
 " The following attempts to use a nice triangle separator for airline.
 " this did not work in chrom os ssh client as the triangles were too small
@@ -32,11 +31,6 @@ let g:airline#extensions#ycm#error_symbol = 'E:'
 " set warning count prefix >
 let g:airline#extensions#ycm#warning_symbol = 'W:'
 
-" let g:airline#extensions#tabline#left_sep = '>'
-" let g:airline#extensions#tabline#left_alt_sep = '|'
-" let g:airline#extensions#tabline#right_sep = '<'
-" let g:airline#extensions#tabline#left_alt_sep = '<'
-
 let g:airline#extensions#tabline#ignore_bufadd_pat = 'gundo|undotree|vimfiler|tagbar|nerd_tree|NERD_tree|startify'
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 nmap <leader>1 <Plug>AirlineSelectTab1
@@ -54,6 +48,14 @@ nmap <leader>+ <Plug>AirlineSelectNextTab
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 
+" Windowswap
+Plugin 'https://github.com/wesQ3/vim-windowswap'
+
+" Windowswap Airline integration
+let g:airline#extensions#windowswap#enabled = 1
+let g:airline#extensions#windowswap#indicator_text = 'WS'
+
+"FZF
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
@@ -75,9 +77,6 @@ let g:fzf_colors =
             \ 'header':  ['fg', 'Comment'] }
 
 Plugin 'vim-airline/vim-airline-themes'
-
-" XTabline to improve on Airline
-" Plugin 'mg979/vim-xtabline'
 
 " required!
 Plugin 'gmarik/vundle'
@@ -124,7 +123,6 @@ endfunction
 nnoremap <silent> <leader>[ :call ToggleYcm()<CR>
 inoremap <silent> <leader>[ <c-o>:call ToggleYcm()<CR>
 
-
 " Fast navigation
 Plugin 'jwhitley/vim-matchit'
 Plugin 'Lokaltog/vim-easymotion'
@@ -132,18 +130,12 @@ Plugin 'Lokaltog/vim-easymotion'
 " Fast editing
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
-" Plugin 'sjl/gundo.vim'
 Plugin 'mbbill/undotree'
 " Plugin 'godlygeek/tabular'
 " Plugin 'nathanaelkane/vim-indent-guides'
 
 " IDE features
 Plugin 'scrooloose/nerdtree'
-Plugin 'https://github.com/wesQ3/vim-windowswap'
-
-" Windowswap Airline integration
-let g:airline#extensions#windowswap#enabled = 1
-let g:airline#extensions#windowswap#indicator_text = 'WS'
 
 " Snippets
 Plugin 'SirVer/ultisnips'
@@ -159,8 +151,8 @@ let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
+" Tags
 Plugin 'majutsushi/tagbar'
-
 Plugin 'ludovicchabant/vim-gutentags'
 
 Plugin 'mileszs/ack.vim'
@@ -171,20 +163,6 @@ Plugin 'scrooloose/syntastic'
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_tcl_checkers = ["nagelfar"]
-
-
-" Plugin 'bronson/vim-trailing-whitespace'
-
-" Other Utils
-" Plugin 'humiaozuzu/fcitx-status'
-" Plugin 'nvie/vim-togglemouse'
-
-" Syntax/Indent for language enhancement
-" markup language
-" Plugin 'tpope/vim-markdown'
-" Plugin 'timcharper/textile.vim'
-" Golang
-" Plugin 'fatih/vim-go'
 
 " Rainbow parantheses
 Plugin 'luochen1990/rainbow'
@@ -225,31 +203,32 @@ set cursorline " cursorcolumn
 
 " search
 set incsearch
-"set highlight 	                                                  " conflict with highlight current line
+"set highlight 	                                 " conflict with highlight current line
 set ignorecase
 set smartcase
 
 " editor settings
 set history=1000
 set nocompatible
-set confirm                                                       " prompt when existing from an unsaved file
+set confirm                                      " prompt when existing from an unsaved file
 " folding
 set foldenable
 set foldlevelstart=255
-set backspace=indent,eol,start                                    " More powerful backspacing
-set t_Co=256                                                      " Explicitly tell vim that the terminal has 256 colors "
-set mouse=a                                                       " use mouse in all modes
-set report=0                                                      " always report number of lines changed                "
-set scrolloff=5                                                   " 5 lines above/below cursor when scrolling
-set number                                                        " show line numbers
-set relativenumber                                                " show relativenumber
-set showmatch                                                     " show matching bracket (briefly jump)
-set showcmd                                                       " show typed command in status bar
-set title                                                         " show file in titlebar
-set laststatus=2                                                  " use 2 lines for the status bar
-set matchtime=2                                                   " show matching bracket for 0.2 seconds
-set directory=~/.vim/tmp                                          " move swp file to /tmp
+set backspace=indent,eol,start                   " More powerful backspacing
+set t_Co=256                                     " Explicitly tell vim that the terminal has 256 colors "
+set mouse=a                                      " use mouse in all modes
+set report=0                                     " always report number of lines changed                "
+set scrolloff=5                                  " 5 lines above/below cursor when scrolling
+set number                                       " show line numbers
+set relativenumber                               " show relativenumber
+set showmatch                                    " show matching bracket (briefly jump)
+set showcmd                                      " show typed command in status bar
+set title                                        " show file in titlebar
+set laststatus=2                                 " use 2 lines for the status bar
+set matchtime=2                                  " show matching bracket for 0.2 seconds
+set directory=~/.vim/tmp                         " move swp file to /tmp
 set virtualedit=onemore
+set visualbell                                   " use visual bell instead of beeping
 
 " Default Indentation
 set autoindent
@@ -315,9 +294,6 @@ let NERDTreeWinPos = "right"
 let NERDSpaceDelims=1
 " nmap <D-/> :NERDComToggleComment<cr>
 let NERDCompactSexyComs=1
-
-" powerline
-"let g:Powerline_symbols = 'fancy'
 
 " fzf vim keybindings
 noremap <leader>ff :Files<CR>
@@ -407,6 +383,9 @@ nnoremap <leader>k :bnext<CR>
 nnoremap <leader>x :bdel<CR>
 nnoremap gb :bnext<CR>
 nnoremap gB :bprev<CR>
+
+" Save on ctrl-s
+nnoremap <c-s> :w<CR>
 
 " When editing a file, always jump to the last cursor position
 autocmd BufReadPost *
