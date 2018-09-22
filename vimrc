@@ -11,7 +11,7 @@ call vundle#rc()
 Plugin 'VundleVim/Vundle.vim'
 
 " Visual stuff
-" Vim Airline
+" Vim Airline{{{
 Plugin 'vim-airline/vim-airline'
 " The following attempts to use a nice triangle separator for airline.
 " this did not work in chrom os ssh client as the triangles were too small
@@ -54,8 +54,9 @@ Plugin 'https://github.com/wesQ3/vim-windowswap'
 " Windowswap Airline integration
 let g:airline#extensions#windowswap#enabled = 1
 let g:airline#extensions#windowswap#indicator_text = 'WS'
+"}}}
 
-"FZF
+"FZF {{{
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
@@ -75,21 +76,23 @@ let g:fzf_colors =
             \ 'marker':  ['fg', 'Keyword'],
             \ 'spinner': ['fg', 'Label'],
             \ 'header':  ['fg', 'Comment'] }
+"}}}
 
 Plugin 'vim-airline/vim-airline-themes'
 
 " required!
 Plugin 'gmarik/vundle'
 
-" Code Completions
+" Code Completions{{{
 Plugin 'Raimondi/delimitMate'
 Plugin 'Valloric/YouCompleteMe'
 " Ycm settings
 let g:ycm_server_python_interpreter = '/usr/bin/python2'
 let g:ycm_complete_in_comments = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
+"}}}
 
-" function to toggle ycm auto completion, so default vim autocomplete
+" function to toggle ycm auto completion, so default vim autocomplete {{{
 " can be used.
 inoremap <C-x> <C-r>=DisableYCMAuto()<CR><C-x>
 
@@ -122,6 +125,7 @@ function! ToggleYcm()
 endfunction
 nnoremap <silent> <leader>[ :call ToggleYcm()<CR>
 inoremap <silent> <leader>[ <c-o>:call ToggleYcm()<CR>
+"}}}
 
 " Fast navigation
 Plugin 'jwhitley/vim-matchit'
@@ -137,7 +141,7 @@ Plugin 'mbbill/undotree'
 " IDE features
 Plugin 'scrooloose/nerdtree'
 
-" Snippets
+" Snippets{{{
 Plugin 'SirVer/ultisnips'
 
 " Snippets are separated from the engine. Add this if you want them:
@@ -150,6 +154,7 @@ let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+"}}}
 
 " Tags
 Plugin 'majutsushi/tagbar'
@@ -158,23 +163,26 @@ Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'mileszs/ack.vim'
 Plugin 'tpope/vim-fugitive'
 
-" Syntax checking plus options
+" Syntax checking plus options{{{
 Plugin 'scrooloose/syntastic'
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_tcl_checkers = ["nagelfar"]
+"}}}
 
-" Rainbow parantheses
+" Rainbow parantheses{{{
 Plugin 'luochen1990/rainbow'
 let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle
+"}}}
 
-" Color Schemes
+" Color Schemes{{{
 Plugin 'morhetz/gruvbox'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'tomasr/molokai'
 Plugin 'chriskempson/vim-tomorrow-theme'
+"}}}
 
-" TCL support
+" TCL support{{{
 Plugin 'LStinson/TclShell-Vim'
 filetype plugin indent on     " required!
 Plugin 'vim-scripts/EvalSelection.vim'
@@ -189,8 +197,9 @@ filetype plugin indent on
 
 " enable syntax hightlight and completion
 syntax on
+"}}}
 
-" Vim UI
+" Vim UI{{{
 "--------
 " color scheme
 set background=dark
@@ -211,9 +220,11 @@ set smartcase
 set history=1000
 set nocompatible
 set confirm                                      " prompt when existing from an unsaved file
+
 " folding
 set foldenable
 set foldlevelstart=255
+
 set backspace=indent,eol,start                   " More powerful backspacing
 set t_Co=256                                     " Explicitly tell vim that the terminal has 256 colors "
 set mouse=a                                      " use mouse in all modes
@@ -240,20 +251,12 @@ set softtabstop=4   " backspace
 " set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
 
 autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
+"}}}
 
 "-----------------
 " Plugin settings
 "-----------------
-" tabbar
-let g:Tb_MaxSize = 2
-let g:Tb_TabWrap = 1
-
-hi Tb_Normal guifg=white ctermfg=white
-hi Tb_Changed guifg=green ctermfg=green
-hi Tb_VisibleNormal ctermbg=252 ctermfg=235
-hi Tb_VisibleChanged guifg=green ctermbg=252 ctermfg=white
-
-" easy-motion
+" easy-motion{{{
 nnoremap <leader>n <Plug>(easymotion-jumptoanywhere)
 let g:EasyMotion_re_anywhere = '\v' .
   \       '(<.|^$)' . '|' .
@@ -261,8 +264,9 @@ let g:EasyMotion_re_anywhere = '\v' .
   \       '(\l)\zs(\u)' . '|' .
   \       '(_\zs.)' . '|' .
   \       '(#\zs.)'
+"}}}
 
-" Tagbar
+" Tagbar{{{
 let g:tagbar_left=1
 let g:tagbar_width=30
 let g:tagbar_autofocus = 1
@@ -279,8 +283,9 @@ let g:tagbar_type_markdown = {
             \ 'k:Heading_L3'
             \ ]
             \ }
+"}}}
 
-" Nerd Tree
+" Nerd Tree{{{
 let NERDChristmasTree=0
 let NERDTreeWinSize=30
 let NERDTreeChDirMode=2
@@ -289,13 +294,15 @@ let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
 " let NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$',  '\~$']
 let NERDTreeShowBookmarks=0
 let NERDTreeWinPos = "right"
+"}}}
 
-" nerdcommenter
+" nerdcommenter{{{
 let NERDSpaceDelims=1
 " nmap <D-/> :NERDComToggleComment<cr>
 let NERDCompactSexyComs=1
+"}}}
 
-" fzf vim keybindings
+" fzf vim keybindings{{{
 noremap <leader>ff :Files<CR>
 noremap <leader>fb :Buffers<CR>
 noremap <leader>fw :Windows<CR>
@@ -306,15 +313,17 @@ noremap <leader>f? :Helptags<CR>
 noremap <leader>fl :Lines<CR>
 noremap <leader>ft :Tags<CR>
 noremap <leader>fm :Marks<CR>
+"}}}
 
-" vim fugitive keybindings`
+" vim fugitive keybindings`{{{
 noremap <leader>gd :Gvdiff<CR>
 noremap <leader>gs :Gstatus<CR>
 noremap <leader>gsd :Gsdiff<CR>
 noremap <leader>gvd :Gvdiff<CR>
 noremap <leader>gc  :Gcommit<CR>
+"}}}
 
-" always split windows vertically
+" always split windows vertically{{{
 set splitright
 set diffopt+=vertical
 silent! set splitvertical
@@ -324,14 +333,16 @@ cabbrev hsplit split
 cabbrev help vert help
 noremap <C-w>] :vert botright wincmd ]<CR>
 noremap <C-w><C-]> :vert botright wincmd ]<CR>
+"}}}
 
-" Rainbow Parantheses
+" Rainbow Parantheses{{{
 nnoremap <leader>ra :RainbowToggle<CR>
 let g:rainbow_conf = {
             \ 'ctermfgs': ['lightblue', 'lightyellow', 'red', 'darkgreen', 'darkyellow', 'lightred', 'yellow', 'cyan', 'magenta', 'white']
             \}
+"}}}
 
-" Keybindings for plugin toggle
+" Keybindings for plugin toggle{{{
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 nmap <F5> :TagbarToggle<cr>
@@ -340,15 +351,12 @@ nmap <F4> :UndotreeToggle<cr>
 nmap  <D-/> :
 nnoremap <leader>a :Ack<space>
 nnoremap <leader>v V`]
+"}}}
 
+" -----------------
 " Useful Functions
 "------------------
-" easier navigation between split windows
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
-
+" Personal bindings{{{
 " remove trailing whitspace
 nnoremap <leader>rw :%s/\s\+$//e<CR>
 
@@ -386,6 +394,14 @@ nnoremap gB :bprev<CR>
 
 " Save on ctrl-s
 nnoremap <c-s> :w<CR>
+"}}}
+
+" Inherited configuration{{{
+" easier navigation between split windows
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
 
 " When editing a file, always jump to the last cursor position
 autocmd BufReadPost *
@@ -419,6 +435,7 @@ nnoremap ; :
 
 noremap <leader>cd :colorscheme Tomorrow-Night-Eighties<CR>
 noremap <leader>ch :colorscheme Tomorrow<CR>
+"}}}
 
 " for macvim
 if has("gui_running")
