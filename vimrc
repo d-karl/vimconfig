@@ -80,9 +80,6 @@ let g:fzf_colors =
 
 Plugin 'vim-airline/vim-airline-themes'
 
-" required!
-Plugin 'gmarik/vundle'
-
 " Code Completions{{{
 Plugin 'Raimondi/delimitMate'
 Plugin 'Valloric/YouCompleteMe'
@@ -136,7 +133,20 @@ Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'mbbill/undotree'
 " Plugin 'godlygeek/tabular'
-" Plugin 'nathanaelkane/vim-indent-guides'
+" Plugin 'nathawordnaelkane/vim-indent-guides'
+
+" vim-repeat since easyclip needs it
+Plugin 'tpope/vim-repeat'
+
+" Yanking / Deleting{{{
+Plugin 'machakann/vim-highlightedyank'
+Plugin 'vim-scripts/YankRing.vim'
+let g:yankring_min_element_length = 2
+function! YRRunAfterMaps()
+    nnoremap <silent>  Y   :<C-U>YRYankCount 'y$'<CR>
+endfunction
+
+"}}}
 
 " IDE features
 Plugin 'scrooloose/nerdtree'
@@ -348,6 +358,7 @@ set pastetoggle=<F2>
 nmap <F5> :TagbarToggle<cr>
 nmap <F6> :NERDTreeToggle<cr>
 nmap <F4> :UndotreeToggle<cr>
+nnoremap <silent> <F7> :YRShow<CR>
 nmap  <D-/> :
 nnoremap <leader>a :Ack<space>
 nnoremap <leader>v V`]
@@ -356,6 +367,10 @@ nnoremap <leader>v V`]
 " -----------------
 " Useful Functions
 "------------------
+" Vim settings{{{
+" allow repeating of yanks with . command
+set cpoptions+=y
+"}}}
 " Personal bindings{{{
 " remove trailing whitspace
 nnoremap <leader>rw :%s/\s\+$//e<CR>
