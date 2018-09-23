@@ -24,6 +24,9 @@ let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing', 'long', 'mi
 
 let airline#extensions#syntastic#stl_format_warn = ''
 
+" disable fugitive integration since it slows down stuff very hard
+let g:airline#extensions#branch#enabled = 1
+
 " enable/disable YCM integration >
 let g:airline#extensions#ycm#enabled = 1
 " set error count prefix >
