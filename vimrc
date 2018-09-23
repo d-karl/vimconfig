@@ -7,6 +7,7 @@ filetype off                   " required!
 set rtp+=~/.vim/bundle/Vundle.vim/
 
 call vundle#rc()
+adding stuff just to test
 " let Vundle manage Vundle
 Plugin 'VundleVim/Vundle.vim'
 
