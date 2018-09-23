@@ -58,7 +58,7 @@ let g:airline#extensions#windowswap#indicator_text = 'WS'
 
 "FZF {{{
 Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
+Plugin 'd-karl/fzf.vim'
 
 " FZF Config
 " Customize fzf colors to match your color scheme
@@ -140,8 +140,9 @@ Plugin 'tpope/vim-repeat'
 
 " Yanking / Deleting{{{
 Plugin 'machakann/vim-highlightedyank'
-Plugin 'vim-scripts/YankRing.vim'
+Plugin 'd-karl/YankRing.vim'
 let g:yankring_min_element_length = 2
+let g:yankring_max_history = 50
 function! YRRunAfterMaps()
     nnoremap <silent>  Y   :<C-U>YRYankCount 'y$'<CR>
 endfunction
