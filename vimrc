@@ -456,3 +456,4 @@ noremap <leader>ch :colorscheme Tomorrow<CR>
 if has("gui_running")
   set guioptions = cm
 endif
+" vim:fdm=marker:
