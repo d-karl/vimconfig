@@ -16,7 +16,7 @@ Plugin 'https://github.com/wesQ3/vim-windowswap'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'Raimondi/delimitMate'
+" Plugin 'Raimondi/delimitMate'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'jwhitley/vim-matchit'
 " Plugin 'Lokaltog/vim-easymotion'
@@ -39,6 +39,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'luochen1990/rainbow'
 Plugin 'LStinson/TclShell-Vim'
 Plugin 'vim-scripts/EvalSelection.vim'
+Plugin 'NLKNguyen/papercolor-theme'
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -58,7 +59,7 @@ filetype plugin indent on    " required
 "--------
 " color scheme
 set background=dark
-colorscheme Tomorrow-Night-Eighties
+colorscheme PaperColor
 
 " highlight current line
 au WinLeave * set nocursorline nocursorcolumn
@@ -219,7 +220,7 @@ let g:fzf_colors =
 
 " Ycm settings{{{
 let g:ycm_server_python_interpreter = '/usr/bin/python2'
-let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_comments = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
 "}}}
 
@@ -234,6 +235,7 @@ endfunction
 let g:UltiSnipsExpandTrigger="<C-j>"
 let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<C-k>"
+let g:snips_author="dak"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
@@ -268,7 +270,7 @@ let g:tagbar_compact = 1
 let g:tagbar_autoclose = 1
 
 " UndoTree
-set g:undoTree_SplitWidth 40
+let g:undoTree_SplitWidth = 40
 
 " tag for markdown
 let g:tagbar_type_markdown = {
@@ -301,15 +303,25 @@ let NERDCompactSexyComs=1
 " fzf vim keybindings{{{
 noremap <leader>ff :Files<CR>
 noremap <leader>fb :Buffers<CR>
+noremap <leader>b  :Buffers<CR>
 noremap <leader>fw :Windows<CR>
 noremap <leader>fh :History<CR>
-noremap <leader>fs :History/<CR>
+noremap <leader>f/ :History/<CR>
+noremap <leader>f: :History:<CR>
 noremap <leader>fc :Commands<CR>
 noremap <leader>f? :Helptags<CR>
 noremap <leader>fl :Lines<CR>
-noremap <leader>ft :Tags<CR>
+noremap <leader>fT :Tags<CR>
+noremap <leader>ft :BTags<CR>
 noremap <leader>fm :Marks<CR>
 noremap <leader>fy :Yanks<CR>
+noremap <leader>fgc :Commits<CR>
+noremap <leader>fs :Snippets<CR>
+noremap <leader>fgs :GFiles?<CR>
+noremap <leader>fgf :GFiles<CR>
+
+" navigate preview window in GFiles?
+let $FZF_DEFAULT_OPTS = '--bind up:preview-up,down:preview-down,left:preview-page-up,right:preview-page-down'
 "}}}
 
 " vim fugitive keybindings`{{{
@@ -324,12 +336,6 @@ noremap <leader>gc  :Gcommit<CR>
 set splitright
 set diffopt+=vertical
 silent! set splitvertical
-" dangerously removed an if here
-cabbrev split vert split
-cabbrev hsplit split
-cabbrev help vert help
-noremap <C-w>] :vert botright wincmd ]<CR>
-noremap <C-w><C-]> :vert botright wincmd ]<CR>
 "}}}
 
 " Rainbow Parantheses{{{
@@ -366,18 +372,17 @@ set cpoptions+=y
 nnoremap <leader>rw :%s/\s\+$//e<CR>
 " toggle guide at column 80
 nnoremap <silent><F7> :call <SID>ToggleColorColumn()<cr>
-set colorcolumn=80
+nnoremap <leader>cc :call <SID>ToggleColorColumn()<cr>
 set tw=79       " width of document (used by gd)
 set nowrap      " don't automatically wrap on load
 set fo-=t       " don't automatically wrap text when typing
 let s:color_column_old = 0
+set termguicolors
 function! s:ToggleColorColumn()
-    if s:color_column_old == 0
-        let s:color_column_old = &colorcolumn
-        windo let &colorcolumn = 0
+    if &colorcolumn == 0
+        windo let &colorcolumn = 80
     else
-        windo let &colorcolumn=s:color_column_old
-        let s:color_column_old = 0
+        windo let &colorcolumn = 0
     endif
 endfunction
 
@@ -398,7 +403,7 @@ nnoremap <leader>o o<Esc>d0
 nnoremap <leader>O O<Esc>d0
 
 " Shortcut to open tag definition in vsplit
-map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+nmap ] :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 " selection shortcuts
 nnoremap <leader>sa ggVG
@@ -454,8 +459,20 @@ vmap <D-]> >gv
 :command Qa qa
 :command QA qa
 
-noremap <leader>cd :colorscheme Tomorrow-Night-Eighties<CR>
-noremap <leader>ch :colorscheme Tomorrow<CR>
+" colorscheme switching
+function! GoColorsDark()
+    set background=dark
+    highlight ColorColumn guibg=#682627
+endfunction
+
+function! GoColorsBright()
+    set background=light
+    highlight ColorColumn guibg=#e8d0d1
+endfunction
+noremap <leader>cd :call GoColorsDark()<CR>
+noremap <leader>ch :call GoColorsBright()<CR>
+
+call GoColorsDark()
 "}}}
 
 " for macvim
