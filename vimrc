@@ -55,7 +55,10 @@ filetype plugin indent on    " required
 "filetype plugin on
 "}}}
 
-" Vim UI{{{
+let mapleader = " "
+let maplocalleader = "\\"
+
+" Vim Settings{{{
 "--------
 " color scheme
 set background=dark
@@ -70,7 +73,12 @@ set cursorline " cursorcolumn
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 set encoding=utf-8
 
+" persistent undo
+set undofile
+set undodir=$HOME/.vim/undo-dir
+
 set nowrapscan
+set hidden
 
 " enable syntax hightlight and completion
 syntax on
