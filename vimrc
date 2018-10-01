@@ -257,6 +257,7 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 let g:yankring_min_element_length = 2
 function! YRRunAfterMaps()
     nnoremap <silent>  Y   :<C-U>YRYankCount 'y$'<CR>
+    unmap @
 endfunction
 "}}}
 
@@ -378,14 +379,25 @@ let g:rainbow_conf = {
 " Keybindings for plugin toggle{{{
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
+nmap <F2> :IndentGuidesToggle<cr>
+nmap <F3> :set hlsearch!<CR>
+nmap <F4> :MundoToggle<cr>
 nmap <F5> :TagbarToggle<cr>
-nmap <F6> :NERDTreeToggle<cr>
-nmap <F4> :UndotreeToggle<cr>
-nmap <F3> :IndentGuidesToggle<cr>
-nnoremap <silent> <F7> :YRShow<CR>
+nmap <F6> <Plug>ToggleMarkbar
+nmap <F7> :NERDTreeToggle<cr>
+" toggle guide at column 80
+nnoremap <F8> :call <SID>ToggleColorColumn()<cr>
 nmap  <D-/> :
-nnoremap <leader>a :Ack<space>
+nnoremap <leader>a :Rg<space>
 nnoremap <leader>v V`]
+"}}}
+
+" Markbar{{{
+let g:markbar_marks_to_display = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+"}}}
+
+"Rainbow Levels{{{
+nmap <leader>rl :RainbowLevelsToggle<CR>
 "}}}
 
 " -----------------
