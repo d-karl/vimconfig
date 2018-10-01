@@ -157,13 +157,23 @@ function! ToggleYcm()
     if g:ycm_auto_trigger == 0
         let g:ycm_auto_trigger=1
         let g:ycm_manual_disable=0
+        echo "YCM enabled!"
     else
         let g:ycm_auto_trigger=0
         let g:ycm_manual_disable=1
+        echo "YCM disabled!"
     endif
 endfunction
-nnoremap <silent> <leader>[ :call ToggleYcm()<CR>
-inoremap <silent> <leader>[ <c-o>:call ToggleYcm()<CR>
+"}}}
+
+" function to clear a register {{{
+command! -nargs=1 ClearReg call ClearReg( <args> )
+function! ClearReg(reg)
+    call setreg(a:reg, [])
+endfunction
+
+nnoremap <silent> <localleader>[ :call ToggleYcm()<CR>
+inoremap <silent> <localleader>[ <c-o>:call ToggleYcm()<CR>
 "}}}
 
 "-----------------
