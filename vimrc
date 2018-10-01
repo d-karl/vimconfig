@@ -238,6 +238,13 @@ let g:fzf_colors =
             \ 'marker':  ['fg', 'Keyword'],
             \ 'spinner': ['fg', 'Label'],
             \ 'header':  ['fg', 'Comment'] }
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 "}}}
 
 " Ycm settings{{{
@@ -392,9 +399,9 @@ set cpoptions+=y
 " Personal bindings{{{
 " remove trailing whitspace
 nnoremap <leader>rw :%s/\s\+$//e<CR>
-" toggle guide at column 80
-nnoremap <silent><F7> :call <SID>ToggleColorColumn()<cr>
-nnoremap <leader>cc :call <SID>ToggleColorColumn()<cr>
+" open a terminal in a vert split
+nnoremap <silent> <leader>t :vert terminal<CR>
+nnoremap <silent> <leader>th :terminal<CR>
 set tw=79       " width of document (used by gd)
 set nowrap      " don't automatically wrap on load
 set fo-=t       " don't automatically wrap text when typing
@@ -435,8 +442,8 @@ nnoremap <Left> :bprev<CR>
 nnoremap <Right> :bnext<CR>
 
 " navigate buffers with personal shortcuts
-nnoremap <leader>j :bprev<CR>
-nnoremap <leader>k :bnext<CR>
+nnoremap <leader>h :bprev<CR>
+nnoremap <leader>l :bnext<CR>
 nnoremap <leader>x :bdel<CR>
 nnoremap gb :bnext<CR>
 nnoremap gB :bprev<CR>
@@ -474,12 +481,12 @@ vmap <D-[> <gv
 vmap <D-]> >gv
 
 " eggcache vim
-:command W w
-:command WQ wq
-:command Wq wq
-:command Q q
-:command Qa qa
-:command QA qa
+:command! W w
+:command! WQ wq
+:command! Wq wq
+:command! Q q
+:command! Qa qa
+:command! QA qa
 
 " colorscheme switching
 function! GoColorsDark()
