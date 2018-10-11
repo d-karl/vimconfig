@@ -44,6 +44,7 @@ Plugin 'luochen1990/rainbow'
 Plugin 'LStinson/TclShell-Vim'
 Plugin 'vim-scripts/EvalSelection.vim'
 Plugin 'NLKNguyen/papercolor-theme'
+Plugin 'junegunn/vim-peekaboo'
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -400,6 +401,10 @@ let g:markbar_marks_to_display = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRST
 nmap <leader>rl :RainbowLevelsToggle<CR>
 "}}}
 
+" Peekaboo{{{
+let g:peekaboo_delay=1000
+let g:peekaboo_window='vert bo 40new'
+"}}}
 " -----------------
 " Useful Functions
 "------------------
