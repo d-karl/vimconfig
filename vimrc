@@ -45,6 +45,7 @@ Plugin 'LStinson/TclShell-Vim'
 Plugin 'vim-scripts/EvalSelection.vim'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'junegunn/vim-peekaboo'
+Plugin 'frioux/vim-regedit'
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
