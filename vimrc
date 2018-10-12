@@ -433,6 +433,8 @@ function! s:ToggleColorColumn()
     endif
 endfunction
 
+nnoremap <leader>dt :diffthis<CR>
+nnoremap <leader>do :diffoff<CR>
 
 " jk in insert mode to exit
 inoremap jk <Esc>
