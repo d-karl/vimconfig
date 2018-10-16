@@ -357,7 +357,9 @@ noremap <leader>fgf :GFiles<CR>
 let $FZF_DEFAULT_OPTS = '--bind up:preview-up,down:preview-down,left:preview-page-up,right:preview-page-down'
 "}}}
 
-" vim fugitive keybindings`{{{
+" vim fugitive `{{{
+autocmd BufReadPost fugitive://* set bufhidden=delete
+
 noremap <leader>gd :Gvdiff<CR>
 noremap <leader>gs :Gstatus<CR>
 noremap <leader>gsd :Gsdiff<CR>
@@ -407,6 +409,11 @@ nmap <leader>rl :RainbowLevelsToggle<CR>
 let g:peekaboo_delay=1000
 let g:peekaboo_window='vert bo 40new'
 "}}}
+"
+" Regedit{{{
+nmap <leader>E <Plug>(RegEditPostfix)
+"}}}
+
 " -----------------
 " Useful Functions
 "------------------
