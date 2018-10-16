@@ -46,6 +46,7 @@ Plugin 'vim-scripts/EvalSelection.vim'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'junegunn/vim-peekaboo'
 Plugin 'frioux/vim-regedit'
+Plugin 'tpope/vim-unimpaired'
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -192,7 +193,7 @@ let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing', 'long', 'mi
 let airline#extensions#syntastic#stl_format_warn = ''
 " disable airline branch symbol since it slowed things down
 " too much
-let g:airline#extensions#branch#enabled = 0
+" let g:airline#extensions#branch#enabled = 0
 
 
 " enable/disable YCM integration >
@@ -433,8 +434,16 @@ function! s:ToggleColorColumn()
     endif
 endfunction
 
+"diff mode {{{
 nnoremap <leader>dt :diffthis<CR>
 nnoremap <leader>do :diffoff<CR>
+nnoremap <leader>dg :diffget<CR>
+nnoremap <leader>dp :diffput<CR>
+nnoremap <leader>du :diffupdate<CR>
+"}}}
+
+" select last pasted text
+nnoremap gp `[v`]
 
 " jk in insert mode to exit
 inoremap jk <Esc>
