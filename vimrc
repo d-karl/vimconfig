@@ -47,6 +47,7 @@ Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'junegunn/vim-peekaboo'
 Plugin 'frioux/vim-regedit'
 Plugin 'tpope/vim-unimpaired'
+Plugin 'metakirby5/codi.vim'
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -193,7 +194,7 @@ let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing', 'long', 'mi
 let airline#extensions#syntastic#stl_format_warn = ''
 " disable airline branch symbol since it slowed things down
 " too much
-" let g:airline#extensions#branch#enabled = 0
+let g:airline#extensions#branch#enabled = 0
 
 
 " enable/disable YCM integration >
@@ -254,6 +255,7 @@ command! -bang -nargs=* Rg
 let g:ycm_server_python_interpreter = '/usr/bin/python2'
 let g:ycm_complete_in_comments = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_autoclose_preview_window_after_completion = 0
 "}}}
 
 " Yankring settings{{{
