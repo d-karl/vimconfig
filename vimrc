@@ -48,6 +48,8 @@ Plugin 'junegunn/vim-peekaboo'
 Plugin 'frioux/vim-regedit'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'metakirby5/codi.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'qpkorr/vim-bufkill'
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -194,7 +196,7 @@ let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing', 'long', 'mi
 let airline#extensions#syntastic#stl_format_warn = ''
 " disable airline branch symbol since it slowed things down
 " too much
-let g:airline#extensions#branch#enabled = 0
+" let g:airline#extensions#branch#enabled = 0
 
 
 " enable/disable YCM integration >
@@ -362,6 +364,9 @@ let $FZF_DEFAULT_OPTS = '--bind up:preview-up,down:preview-down,left:preview-pag
 " vim fugitive `{{{
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
+" Enable spell check for commit messages
+autocmd FileType gitcommit setlocal spell
+
 noremap <leader>gd :Gvdiff<CR>
 noremap <leader>gs :Gstatus<CR>
 noremap <leader>gsd :Gsdiff<CR>
@@ -452,7 +457,7 @@ nnoremap <leader>du :diffupdate<CR>
 "}}}
 
 " select last pasted text
-nnoremap gp `[v`]
+nmap gV `[v`]
 
 " jk in insert mode to exit
 inoremap jk <Esc>
@@ -482,9 +487,9 @@ nnoremap <Right> :bnext<CR>
 " navigate buffers with personal shortcuts
 nnoremap <leader>h :bprev<CR>
 nnoremap <leader>l :bnext<CR>
-nnoremap <leader>x :bdel<CR>
-nnoremap gb :bnext<CR>
-nnoremap gB :bprev<CR>
+nnoremap <leader>x :BD<CR>
+nnoremap gb :BF<CR>
+nnoremap gB :BB<CR>
 
 " Save on ctrl-s
 nnoremap <c-s> :w<CR>
