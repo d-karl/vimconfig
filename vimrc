@@ -48,6 +48,9 @@ Plugin 'junegunn/vim-peekaboo'
 Plugin 'frioux/vim-regedit'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'metakirby5/codi.vim'
+Plugin 'kana/vim-textobj-user'
+Plugin 'kana/vim-textobj-indent'
+Plugin 'kana/vim-textobj-line'
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -255,7 +258,7 @@ command! -bang -nargs=* Rg
 let g:ycm_server_python_interpreter = '/usr/bin/python2'
 let g:ycm_complete_in_comments = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_autoclose_preview_window_after_completion = 0
+let g:ycm_autoclose_preview_window_after_completion = 1
 "}}}
 
 " Yankring settings{{{
@@ -411,7 +414,7 @@ nmap <leader>rl :RainbowLevelsToggle<CR>
 let g:peekaboo_delay=1000
 let g:peekaboo_window='vert bo 40new'
 "}}}
-"
+
 " Regedit{{{
 nmap <leader>E <Plug>(RegEditPostfix)
 "}}}
@@ -546,4 +549,11 @@ call GoColorsDark()
 if has("gui_running")
   set guioptions = cm
 endif
-" vim:fdm=marker:
+
+" when running inside tmux
+if $TMUX != ''
+    set notermguicolors
+    set background=dark
+endif
+
+" vim:sw=4:ts=4:tw=79:fdl=0:fdm=marker:
