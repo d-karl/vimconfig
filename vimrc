@@ -132,7 +132,7 @@ set shiftwidth=4
 set softtabstop=4   " backspace
 " set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
 
-autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
+" autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
 "}}}
 
 " -----------------
@@ -143,6 +143,7 @@ autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=
 inoremap <C-x> <C-r>=DisableYCMAuto()<CR><C-x>
 
 augroup RestoreYcm
+    autocmd!
     autocmd InsertLeave * :call EnableYCMAuto()
 augroup END
 
@@ -192,9 +193,8 @@ let g:airline#extensions#tabline#show_splits = 1
 let g:airline#extensions#tabline#keymap_ignored_filetypes = ['vimfiler', 'nerdtree']
 let g:airline#extensions#tabline#show_close_button = 0
 let airline#extensions#tabline#ignore_bufadd_pat = '\c\vgundo|undotree|vimfiler|tagbar|nerd_tree'
-let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing', 'long', 'mixed-indent-file' ]
+let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing', 'mixed-indent-file' ]
 
-let airline#extensions#syntastic#stl_format_warn = ''
 " disable airline branch symbol since it slowed things down
 " too much
 let g:airline#extensions#branch#enabled = 0
@@ -454,8 +454,6 @@ let g:codi#autocmd='InsertLeave'
 " Useful Functions
 "------------------
 " Vim settings{{{
-" allow repeating of yanks with . command
-set cpoptions+=y
 "}}}
 
 " Personal bindings{{{
@@ -479,11 +477,20 @@ endfunction
 
 "diff mode {{{
 nnoremap <leader>dt :diffthis<CR>
+nnoremap <leader>bdt :windo diffthis<CR>
+nnoremap <leader>bdo :windo diffoff<CR>
 nnoremap <leader>do :diffoff<CR>
 nnoremap <leader>dg :diffget<CR>
 nnoremap <leader>dp :diffput<CR>
 nnoremap <leader>du :diffupdate<CR>
 "}}}
+
+" quickfix list open / closing
+nnoremap <leader>qo :copen<CR>
+nnoremap <leader>qc :cclose<CR>
+
+" preview closing
+nnoremap <leader>pc :pclose<CR>
 
 " select last pasted text
 nmap gV `[v`]
@@ -517,6 +524,7 @@ nnoremap <Right> :bnext<CR>
 nnoremap <leader>h :bprev<CR>
 nnoremap <leader>l :bnext<CR>
 nnoremap <leader>x :BD<CR>
+nnoremap <leader>X :bd<CR>
 nnoremap gb :BF<CR>
 nnoremap gB :BB<CR>
 
@@ -576,10 +584,7 @@ noremap <leader>ch :call GoColorsBright()<CR>
 call GoColorsDark()
 "}}}
 
-" for macvim
-if has("gui_running")
-  set guioptions = cm
-endif
+set guioptions=cm
 
 " when running inside tmux
 if $TMUX != ''
