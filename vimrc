@@ -19,14 +19,11 @@ Plugin 'Yilin-Yang/vim-markbar'
 Plugin 'wellle/targets.vim'
 Plugin 'thiagoalessio/rainbow_levels.vim'
 Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'Raimondi/delimitMate'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'jwhitley/vim-matchit'
-" Plugin 'Lokaltog/vim-easymotion'
 Plugin 'unblevable/quick-scope'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
-" Plugin 'mbbill/undotree'
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'tpope/vim-repeat'
@@ -39,7 +36,8 @@ Plugin 'majutsushi/tagbar'
 Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'mileszs/ack.vim'
 Plugin 'tpope/vim-fugitive'
-Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/syntastic'
+Plugin 'w0rp/ale'
 Plugin 'luochen1990/rainbow'
 Plugin 'LStinson/TclShell-Vim'
 Plugin 'vim-scripts/EvalSelection.vim'
@@ -261,6 +259,10 @@ let g:ycm_server_python_interpreter = '/usr/bin/python2'
 let g:ycm_complete_in_comments = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
+
+" disable Vim omnifunc in c and c++ files
+autocmd FileType c setlocal omnifunc=
+autocmd FileType cpp setlocal omnifunc=
 "}}}
 
 " Yankring settings{{{
@@ -279,12 +281,6 @@ let g:snips_author="dak"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
-"}}}
-
-" Syntastic{{{
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_tcl_checkers = ["nagelfar"]
 "}}}
 
 " EvalSelection{{{
@@ -422,6 +418,36 @@ let g:peekaboo_window='vert bo 40new'
 
 " Regedit{{{
 nmap <leader>E <Plug>(RegEditPostfix)
+"}}}
+
+" ALE {{{
+let g:ale_lint_on_text_changed='insert'
+let g:ale_lind_on_enter=1
+let g:ale_lint_on_save=1
+let g:ale_tcl_nagelfar_executable='nagelfar'
+let g:ale_set_quickfix=1
+let g:ale_open_list='on_save'
+let g:ale_completion_enabled=1
+let g:ale_completion_max_suggestions=25
+
+let g:ale_linters={
+\   'tcl': ['nagelfar'],
+\   'c': ['ccls'],
+\   'cpp': ['ccls'],
+\}
+
+let g:ale_tcl_nagelfar_options='-filter "*Unknown command*"'
+
+" autocommand to open quickfix list as the bottom window
+augroup quickfix_move
+    autocmd!
+    autocmd FileType qf wincmd J
+augroup END
+
+"}}}
+
+" Codi{{{
+let g:codi#autocmd='InsertLeave'
 "}}}
 
 " -----------------
