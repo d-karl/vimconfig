@@ -51,6 +51,7 @@ Plugin 'qpkorr/vim-bufkill'
 Plugin 'kana/vim-textobj-user'
 Plugin 'kana/vim-textobj-indent'
 Plugin 'kana/vim-textobj-line'
+Plugin 'martong/vim-compiledb-path'
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -227,6 +228,12 @@ let g:airline_right_sep = ''
 " Windowswap Airline integration
 let g:airline#extensions#windowswap#enabled = 1
 let g:airline#extensions#windowswap#indicator_text = 'WS'
+"}}}
+
+"Gutentags{{{
+" let g:gutentags_project_root=['CM_Project']
+let g:gutentags_cache_dir='/home/dak/.vim/tags-cache/'
+let g:gutentags_ctags_exclude=['.ccls*','.git']
 "}}}
 
 " FZF Config{{{
@@ -429,6 +436,7 @@ let g:ale_set_quickfix=1
 let g:ale_open_list='on_save'
 let g:ale_completion_enabled=1
 let g:ale_completion_max_suggestions=25
+set completeopt=menu,menuone,preview,noselect,noinsert
 
 let g:ale_linters={
 \   'tcl': ['nagelfar'],
@@ -437,6 +445,10 @@ let g:ale_linters={
 \}
 
 let g:ale_tcl_nagelfar_options='-filter "*Unknown command*"'
+
+let g:ale_fixers={'cpp': ['uncrustify']}
+let g:ale_c_uncrustify_options='-c /home/dak/tools/code\ fixing/cpp.cfg'
+let g:ale_fix_on_save=1
 
 " autocommand to open quickfix list as the bottom window
 augroup quickfix_move
@@ -454,6 +466,8 @@ let g:codi#autocmd='InsertLeave'
 " Useful Functions
 "------------------
 " Vim settings{{{
+let g:load_doxygen_syntax=1
+set scrolloff=10
 "}}}
 
 " Personal bindings{{{
