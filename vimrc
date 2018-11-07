@@ -456,6 +456,15 @@ augroup quickfix_move
     autocmd FileType qf wincmd J
 augroup END
 
+" Bindings
+noremap <leader>af <Plug>(ale_fix)
+noremap <leader>ah <Plug>(ale_hover)
+noremap <leader>ar <Plug>(ale_find_references)
+noremap <leader>ad <Plug>(ale_go_to_definition)
+noremap <leader>at <Plug>(ale_go_to_definition_in_tab)
+noremap <leader>av <Plug>(ale_detail)
+
+
 "}}}
 
 " Codi{{{
