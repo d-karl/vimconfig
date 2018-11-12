@@ -428,13 +428,13 @@ nmap <leader>E <Plug>(RegEditPostfix)
 "}}}
 
 " ALE {{{
-let g:ale_lint_on_text_changed='insert'
-let g:ale_lind_on_enter=1
+let g:ale_lint_on_text_changed='never'
+let g:ale_lint_on_enter=0
 let g:ale_lint_on_save=1
 let g:ale_tcl_nagelfar_executable='nagelfar'
 let g:ale_set_quickfix=1
 let g:ale_open_list='on_save'
-let g:ale_completion_enabled=1
+let g:ale_completion_enabled=0
 let g:ale_completion_max_suggestions=25
 set completeopt=menu,menuone,preview,noselect,noinsert
 
@@ -447,7 +447,7 @@ let g:ale_linters={
 let g:ale_tcl_nagelfar_options='-filter "*Unknown command*"'
 
 let g:ale_fixers={'cpp': ['uncrustify']}
-let g:ale_c_uncrustify_options='-c /home/dak/tools/code\ fixing/cpp.cfg'
+let g:ale_c_uncrustify_options='-l CPP -c /home/dak/tools/code\ fixing/cpp.cfg'
 let g:ale_fix_on_save=1
 
 " autocommand to open quickfix list as the bottom window
@@ -457,12 +457,12 @@ augroup quickfix_move
 augroup END
 
 " Bindings
-noremap <leader>af <Plug>(ale_fix)
-noremap <leader>ah <Plug>(ale_hover)
-noremap <leader>ar <Plug>(ale_find_references)
-noremap <leader>ad <Plug>(ale_go_to_definition)
-noremap <leader>at <Plug>(ale_go_to_definition_in_tab)
-noremap <leader>av <Plug>(ale_detail)
+nmap <leader>af <Plug>(ale_fix)
+nmap <leader>ah <Plug>(ale_hover)
+nmap <leader>ar <Plug>(ale_find_references)
+nmap <leader>ad <Plug>(ale_go_to_definition)
+nmap <leader>at <Plug>(ale_go_to_definition_in_tab)
+nmap <leader>av <Plug>(ale_detail)
 
 
 "}}}
