@@ -52,6 +52,7 @@ Plugin 'kana/vim-textobj-user'
 Plugin 'kana/vim-textobj-indent'
 Plugin 'kana/vim-textobj-line'
 Plugin 'martong/vim-compiledb-path'
+Plugin 'skywind3000/asyncrun.vim'
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -134,6 +135,7 @@ set softtabstop=4   " backspace
 " set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
 
 " autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
+autocmd FileType cpp setlocal textwidth=99
 "}}}
 
 " -----------------
@@ -480,6 +482,9 @@ set scrolloff=10
 "}}}
 
 " Personal bindings{{{
+" abbreviation for make in quickfix list
+ca amake AsyncRun make
+
 " remove trailing whitspace
 nnoremap <leader>rw :%s/\s\+$//e<CR>
 " open a terminal in a vert split
