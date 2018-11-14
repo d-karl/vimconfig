@@ -478,17 +478,24 @@ nmap <leader>av <Plug>(ale_detail)
 let g:codi#autocmd='InsertLeave'
 "}}}
 
+" AsyncRun{{{
+let g:asyncrun_open=15
+"}}}
+
 " -----------------
 " Useful Functions
 "------------------
 " Vim settings{{{
 let g:load_doxygen_syntax=1
+let g:termdebug_wide=100
 set scrolloff=10
+set complete=.,w,b,u,t,k
 "}}}
 
 " Personal bindings{{{
 " abbreviation for make in quickfix list
 ca amake AsyncRun make
+ca amakeb AsyncRun make -C build
 
 " remove trailing whitspace
 nnoremap <leader>rw :%s/\s\+$//e<CR>
