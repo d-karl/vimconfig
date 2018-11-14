@@ -449,6 +449,8 @@ let g:ale_linters={
 \   'cpp': ['ccls'],
 \}
 
+let g:ale_cpp_ccls_init_options={'cacheDirectory': '/tmp/ccls'}
+
 let g:ale_tcl_nagelfar_options='-filter "*Unknown command*"'
 
 let g:ale_fixers={'cpp': ['uncrustify']}
