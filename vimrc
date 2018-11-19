@@ -19,7 +19,6 @@ Plugin 'Yilin-Yang/vim-markbar'
 Plugin 'wellle/targets.vim'
 Plugin 'thiagoalessio/rainbow_levels.vim'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'jwhitley/vim-matchit'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
@@ -35,7 +34,6 @@ Plugin 'majutsushi/tagbar'
 Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'mileszs/ack.vim'
 Plugin 'tpope/vim-fugitive'
-" Plugin 'scrooloose/syntastic'
 Plugin 'w0rp/ale'
 Plugin 'luochen1990/rainbow'
 Plugin 'LStinson/TclShell-Vim'
@@ -52,6 +50,10 @@ Plugin 'kana/vim-textobj-indent'
 Plugin 'kana/vim-textobj-line'
 Plugin 'martong/vim-compiledb-path'
 Plugin 'skywind3000/asyncrun.vim'
+" Deoplete and dependencies
+Plugin 'Shougo/deoplete.nvim'
+Plugin 'roxma/nvim-yarp'
+Plugin 'roxma/vim-hug-neovim-rpc'
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -265,21 +267,6 @@ command! -bang -nargs=* Rg
   \   <bang>0)
 "}}}
 
-" Ycm settings{{{
-let g:ycm_server_python_interpreter = '/usr/bin/python2'
-let g:ycm_complete_in_comments = 0
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-" let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
-let g:ycm_show_diagnostics_ui = 0
-
-let g:ycm_extra_conf_globlist=['/fs/.ycm_extra_conf.py']
-
-" disable Vim omnifunc in c and c++ files
-autocmd FileType c setlocal omnifunc=
-autocmd FileType cpp setlocal omnifunc=
-"}}}
-
 " Yankring settings{{{
 let g:yankring_min_element_length = 2
 function! YRRunAfterMaps()
@@ -293,6 +280,7 @@ let g:UltiSnipsExpandTrigger="<C-j>"
 let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 let g:snips_author="dak"
+let g:UltiSnipsUsePythonVersion = 3
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
@@ -498,6 +486,12 @@ let g:codi#autocmd='InsertLeave'
 " AsyncRun{{{
 let g:asyncrun_open=15
 "}}}
+
+" Deoplete{{{
+let g:deoplete#enable_at_startup = 1
+call deoplete#custom#option('num_processes', 1)
+"}}}
+
 
 " -----------------
 " Useful Functions
