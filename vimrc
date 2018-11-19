@@ -234,7 +234,10 @@ let g:airline#extensions#windowswap#indicator_text = 'WS'
 "Gutentags{{{
 " let g:gutentags_project_root=['CM_Project']
 let g:gutentags_cache_dir='/home/dak/.vim/tags-cache/'
-let g:gutentags_ctags_exclude=['.ccls*','.git']
+let g:gutentags_ctags_exclude=['.ccls*','.git','CMakeFiles','MakeFile*']
+let g:gutentags_generate_on_missing=0
+let g:gutentags_generate_on_new=0
+let g:gutentags_generate_on_empty_buffer=0
 "}}}
 
 " FZF Config{{{
@@ -334,7 +337,7 @@ let g:tagbar_type_markdown = {
 " Nerd Tree{{{
 let NERDChristmasTree=0
 let NERDTreeWinSize=30
-let NERDTreeChDirMode=2
+let NERDTreeChDirMode=0
 let g:NERDTreeDirArrows=0
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
 " let NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$',  '\~$']
@@ -451,8 +454,8 @@ let g:ale_lint_on_text_changed='never'
 let g:ale_lint_on_enter=0
 let g:ale_lint_on_save=1
 let g:ale_tcl_nagelfar_executable='nagelfar'
-let g:ale_set_quickfix=1
-let g:ale_open_list='on_save'
+let g:ale_set_quickfix=0
+let g:ale_open_list=0
 let g:ale_completion_enabled=0
 let g:ale_completion_max_suggestions=25
 set completeopt=menu,menuone,preview,noselect,noinsert
@@ -542,6 +545,8 @@ nnoremap <leader>du :diffupdate<CR>
 " quickfix list open / closing
 nnoremap <leader>qo :copen<CR>
 nnoremap <leader>qc :cclose<CR>
+nnoremap <leader>lc :lclose<CR>
+nnoremap <leader>lo :lopen<CR>
 
 " preview closing
 nnoremap <leader>pc :pclose<CR>
