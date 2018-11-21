@@ -6,6 +6,8 @@ set nocompatible
 filetype off                   " required!
 
 set rtp+=~/.vim/bundle/Vundle.vim/
+set rtp+=~/.vim/bundle/nvim-yarp/
+set rtp+=~/.vim/bundle/vim-hug-neovim-rpc/
 
 " Load plugins using vundle{{{
 call vundle#begin()
