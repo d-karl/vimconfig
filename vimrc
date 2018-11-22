@@ -6,8 +6,6 @@ set nocompatible
 filetype off                   " required!
 
 set rtp+=~/.vim/bundle/Vundle.vim/
-set rtp+=~/.vim/bundle/nvim-yarp/
-set rtp+=~/.vim/bundle/vim-hug-neovim-rpc/
 
 " Load plugins using vundle{{{
 call vundle#begin()
@@ -21,7 +19,6 @@ Plugin 'Yilin-Yang/vim-markbar'
 Plugin 'wellle/targets.vim'
 Plugin 'thiagoalessio/rainbow_levels.vim'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'jwhitley/vim-matchit'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
@@ -54,6 +51,15 @@ Plugin 'kana/vim-textobj-indent'
 Plugin 'kana/vim-textobj-line'
 Plugin 'martong/vim-compiledb-path'
 Plugin 'skywind3000/asyncrun.vim'
+" ncm 2 and sources
+Plugin 'roxma/nvim-yarp'
+Plugin 'roxma/vim-hug-neovim-rpc'
+Plugin 'ncm2/ncm2'
+Plugin 'ncm2/ncm2-bufword'
+Plugin 'ncm2/ncm2-path'
+Plugin 'ncm2/ncm2-ultisnips'
+Plugin 'autozimu/LanguageClient-neovim'
+
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -71,6 +77,8 @@ filetype plugin indent on    " required
 
 let mapleader = " "
 let maplocalleader = "\\"
+
+let g:python3_host_prog='/home/dak/tools/install/bin/python3.7'
 
 " Vim Settings{{{
 "--------
@@ -295,6 +303,7 @@ let g:UltiSnipsExpandTrigger="<C-j>"
 let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 let g:snips_author="dak"
+let g:UltiSnipsRemoveSelectModeMappings = 0
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
@@ -377,6 +386,7 @@ noremap <leader>fgf :GFiles<CR>
 
 function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  echo "setqf called!"
   copen
   cc
 endfunction
@@ -388,7 +398,7 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 
 " navigate preview window in GFiles?
-let $FZF_DEFAULT_OPTS = '--bind up:preview-up,down:preview-down,left:preview-page-up,right:preview-page-down --bind ctrl-a:select-all'
+let $FZF_DEFAULT_OPTS = '-m --bind up:preview-up,down:preview-down,left:preview-page-up,right:preview-page-down --bind ctrl-a:select-all'
 "}}}
 
 " vim fugitive `{{{
@@ -460,12 +470,11 @@ let g:ale_set_quickfix=0
 let g:ale_open_list=0
 let g:ale_completion_enabled=0
 let g:ale_completion_max_suggestions=25
-set completeopt=menu,menuone,preview,noselect,noinsert
 
 let g:ale_linters={
 \   'tcl': ['nagelfar'],
-\   'c': ['ccls'],
-\   'cpp': ['ccls'],
+\   'c'  : [],
+\   'cpp': []
 \}
 
 let g:ale_cpp_ccls_init_options={'cacheDirectory': '/tmp/ccls'}
@@ -497,9 +506,56 @@ nmap <leader>av <Plug>(ale_detail)
 let g:codi#autocmd='InsertLeave'
 "}}}
 
-" AsyncRun{{{
+" AsyncRun{{{{{{
 let g:asyncrun_open=15
 "}}}
+
+" NCM2
+" enable ncm2 for all buffers
+    autocmd BufEnter * call ncm2#enable_for_buffer()
+
+    " IMPORTANTE: :help Ncm2PopupOpen for more information
+    set completeopt=noinsert,menuone,noselect,preview
+"}}}
+
+" NCM2{{{
+    inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"}}}
+
+" LanguageServer{{{
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+
+let g:LanguageClient_serverCommands = {
+    \ 'c': ['ccls', '--log-file=/tmp/cc.log'],
+    \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
+    \ 'cuda': ['ccls', '--log-file=/tmp/cc.log'],
+    \ 'objc': ['ccls', '--log-file=/tmp/cc.log'],
+    \ }
+
+au TextChangedI * call ncm2#auto_trigger()
+
+let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
+let g:LanguageClient_settingsPath = '/home/dak/.vim/ccls_settings.json'
+" https://github.com/autozimu/LanguageClient-neovim/issues/379 LSP snippet is not supported
+let g:LanguageClient_hasSnippetSupport = 1
+
+" keybindings
+nnoremap <leader>cc :call LanguageClient_contextMenu()<CR>
+nnoremap <leader>ch :call LanguageClient#textDocument_hover()<CR>
+nnoremap <leader>cd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <leader>ci :call LanguageClient#textDocument_implementation()<CR>
+nnoremap <leader>cs :call LanguageClient#textDocument_documentSymbol()<CR>
+nnoremap <leader>cr :call LanguageClient#textDocument_references()<CR>
+nnoremap <leader>ca :call LanguageClient#textDocument_codeAction()<CR>
+nnoremap <leader>fc :call LanguageClient#workspace_symbol()<CR>
+nnoremap <leader>ce :call LanguageClient#explainErrorAtPoint()<CR>
+
+
+call LanguageClient#setDiagnosticsList('Location')
+" }}}
+
 
 " -----------------
 " Useful Functions
@@ -547,8 +603,8 @@ nnoremap <leader>du :diffupdate<CR>
 " quickfix list open / closing
 nnoremap <leader>qo :copen<CR>
 nnoremap <leader>qc :cclose<CR>
-nnoremap <leader>lc :lclose<CR>
-nnoremap <leader>lo :lopen<CR>
+nnoremap <leader>mc :lclose<CR>
+nnoremap <leader>mo :lopen<CR>
 
 " preview closing
 nnoremap <leader>pc :pclose<CR>
@@ -639,8 +695,8 @@ function! GoColorsBright()
     set background=light
     highlight ColorColumn guibg=#e8d0d1
 endfunction
-noremap <leader>cd :call GoColorsDark()<CR>
-noremap <leader>ch :call GoColorsBright()<CR>
+noremap <leader>vd :call GoColorsDark()<CR>
+noremap <leader>vh :call GoColorsBright()<CR>
 
 call GoColorsDark()
 "}}}
