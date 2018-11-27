@@ -513,6 +513,8 @@ let g:asyncrun_open=15
 " NCM2
 " enable ncm2 for all buffers
     autocmd BufEnter * call ncm2#enable_for_buffer()
+    autocmd BufEnter * call  LanguageClient#setDiagnosticsList('Location')
+
 
     " IMPORTANTE: :help Ncm2PopupOpen for more information
     set completeopt=noinsert,menuone,noselect,preview
@@ -536,24 +538,21 @@ let g:LanguageClient_serverCommands = {
 
 au TextChangedI * call ncm2#auto_trigger()
 
+let g:LanguageClient_settingsPath = '/home/dak/.vim/settings.json'
 let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
-let g:LanguageClient_settingsPath = '/home/dak/.vim/ccls_settings.json'
 " https://github.com/autozimu/LanguageClient-neovim/issues/379 LSP snippet is not supported
 let g:LanguageClient_hasSnippetSupport = 1
 
 " keybindings
-nnoremap <leader>cc :call LanguageClient_contextMenu()<CR>
-nnoremap <leader>ch :call LanguageClient#textDocument_hover()<CR>
-nnoremap <leader>cd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <leader>ci :call LanguageClient#textDocument_implementation()<CR>
-nnoremap <leader>cs :call LanguageClient#textDocument_documentSymbol()<CR>
-nnoremap <leader>cr :call LanguageClient#textDocument_references()<CR>
-nnoremap <leader>ca :call LanguageClient#textDocument_codeAction()<CR>
-nnoremap <leader>fc :call LanguageClient#workspace_symbol()<CR>
-nnoremap <leader>ce :call LanguageClient#explainErrorAtPoint()<CR>
+nnoremap <leader>ac :call LanguageClient_contextMenu()<CR>
+nnoremap <leader>ah :call LanguageClient#textDocument_hover()<CR>
+nnoremap <leader>ad :call LanguageClient#textDocument_definition()<CR>
+nnoremap <leader>ai :call LanguageClient#textDocument_implementation()<CR>
+nnoremap <leader>as :call LanguageClient#textDocument_documentSymbol()<CR>
+nnoremap <leader>ar :call LanguageClient#textDocument_references()<CR>
+nnoremap <leader>aa :call LanguageClient#textDocument_codeAction()<CR>
+nnoremap <leader>ae :call LanguageClient#explainErrorAtPoint()<CR>
 
-
-call LanguageClient#setDiagnosticsList('Location')
 " }}}
 
 
@@ -570,7 +569,8 @@ set complete=.,w,b,u,t,k
 " Personal bindings{{{
 " abbreviation for make in quickfix list
 ca amake AsyncRun make
-ca amakeb AsyncRun make -C build
+ca amakeb AsyncRun cd build && make
+ca atest AsyncRun cd build && ctest -V
 
 " remove trailing whitspace
 nnoremap <leader>rw :%s/\s\+$//e<CR>
