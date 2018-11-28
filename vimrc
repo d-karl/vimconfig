@@ -439,6 +439,7 @@ nmap <F6> <Plug>ToggleMarkbar
 nmap <F7> :NERDTreeToggle<cr>
 " toggle guide at column 80
 nnoremap <F8> :call <SID>ToggleColorColumn()<cr>
+nmap <F9> :amakeb<CR>
 nmap  <D-/> :
 nnoremap <leader>a :Rg<space>
 nnoremap <leader>v V`]
@@ -648,6 +649,12 @@ nnoremap gB :BB<CR>
 " Save on ctrl-s
 nnoremap <c-s> :w<CR>
 "}}}
+
+" Uniform navigation in terminal mode
+tnoremap <c-j> <c-w>j
+tnoremap <c-k> <c-w>k
+tnoremap <c-h> <c-w>h
+tnoremap <c-l> <c-w>l
 
 " Inherited configuration{{{
 " easier navigation between split windows
