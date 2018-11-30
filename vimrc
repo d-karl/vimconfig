@@ -365,7 +365,7 @@ let NERDCompactSexyComs=1
 " fzf vim keybindings{{{
 noremap <leader>ff :Files<CR>
 noremap <leader>fb :Buffers<CR>
-noremap <leader>b  :Buffers<CR>
+noremap <leader>o  :Buffers<CR>
 noremap <leader>fw :Windows<CR>
 noremap <leader>fh :History<CR>
 noremap <leader>f/ :History/<CR>
@@ -465,17 +465,19 @@ nmap <leader>E <Plug>(RegEditPostfix)
 " ALE {{{
 let g:ale_lint_on_text_changed='never'
 let g:ale_lint_on_enter=0
-let g:ale_lint_on_save=1
+let g:ale_lint_on_save=0
 let g:ale_tcl_nagelfar_executable='nagelfar'
-let g:ale_set_quickfix=0
+let g:ale_set_quickfix=1
 let g:ale_open_list=0
 let g:ale_completion_enabled=0
 let g:ale_completion_max_suggestions=25
 
+let g:ale_cpp_clangtidy_checks=['modernize*', 'readability*', 'performance*', 'clang-analyzer*', '*cpp*']
+
 let g:ale_linters={
 \   'tcl': ['nagelfar'],
 \   'c'  : [],
-\   'cpp': []
+\   'cpp': ['clangtidy']
 \}
 
 let g:ale_cpp_ccls_init_options={'cacheDirectory': '/tmp/ccls'}
@@ -486,6 +488,11 @@ let g:ale_fixers={'cpp': ['uncrustify']}
 let g:ale_c_uncrustify_options='-l CPP -c /home/dak/tools/code\ fixing/cpp.cfg'
 let g:ale_fix_on_save=1
 
+augroup ale_lint_tcl_on_save
+    autocmd!
+    autocmd FileType tcl let b:ale_lint_on_save=1
+augroup END
+
 " autocommand to open quickfix list as the bottom window
 augroup quickfix_move
     autocmd!
@@ -493,6 +500,7 @@ augroup quickfix_move
 augroup END
 
 " Bindings
+nmap <leader>al <Plug>(ale_lint)
 nmap <leader>af <Plug>(ale_fix)
 nmap <leader>ah <Plug>(ale_hover)
 nmap <leader>ar <Plug>(ale_find_references)
@@ -518,7 +526,7 @@ let g:asyncrun_open=15
 
 
     " IMPORTANTE: :help Ncm2PopupOpen for more information
-    set completeopt=noinsert,menuone,noselect,preview
+    set completeopt=noinsert,menuone,noselect
 "}}}
 
 " NCM2{{{
@@ -545,14 +553,14 @@ let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if yo
 let g:LanguageClient_hasSnippetSupport = 1
 
 " keybindings
-nnoremap <leader>ac :call LanguageClient_contextMenu()<CR>
-nnoremap <leader>ah :call LanguageClient#textDocument_hover()<CR>
-nnoremap <leader>ad :call LanguageClient#textDocument_definition()<CR>
-nnoremap <leader>ai :call LanguageClient#textDocument_implementation()<CR>
-nnoremap <leader>as :call LanguageClient#textDocument_documentSymbol()<CR>
-nnoremap <leader>ar :call LanguageClient#textDocument_references()<CR>
-nnoremap <leader>aa :call LanguageClient#textDocument_codeAction()<CR>
-nnoremap <leader>ae :call LanguageClient#explainErrorAtPoint()<CR>
+nnoremap <leader>lc :call LanguageClient_contextMenu()<CR>
+nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
+nnoremap <leader>li :call LanguageClient#textDocument_implementation()<CR>
+nnoremap <leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
+nnoremap <leader>lr :call LanguageClient#textDocument_references()<CR>
+nnoremap <leader>la :call LanguageClient#textDocument_codeAction()<CR>
+nnoremap <leader>le :call LanguageClient#explainErrorAtPoint()<CR>
 
 " }}}
 
@@ -572,6 +580,9 @@ set complete=.,w,b,u,t,k
 ca amake AsyncRun make
 ca amakeb AsyncRun cd build && make
 ca atest AsyncRun cd build && ctest -V
+
+" jump to end of recently yanked text
+nnoremap <leader>gy ']
 
 " remove trailing whitspace
 nnoremap <leader>rw :%s/\s\+$//e<CR>
@@ -624,10 +635,6 @@ nnoremap <leader>h 0
 nnoremap <leader>p "0p
 nnoremap <leader>P "0P
 
-" Shortcut to insert empty lines before and after current line
-nnoremap <leader>o o<Esc>d0
-nnoremap <leader>O O<Esc>d0
-
 " Shortcut to open tag definition in vsplit
 nmap ] :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
@@ -639,8 +646,6 @@ nnoremap <Left> :bprev<CR>
 nnoremap <Right> :bnext<CR>
 
 " navigate buffers with personal shortcuts
-nnoremap <leader>h :bprev<CR>
-nnoremap <leader>l :bnext<CR>
 nnoremap <leader>x :BD<CR>
 nnoremap <leader>X :bd<CR>
 nnoremap gb :BF<CR>
