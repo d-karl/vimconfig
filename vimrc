@@ -15,7 +15,6 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'https://github.com/wesQ3/vim-windowswap'
 Plugin 'junegunn/fzf'
 Plugin 'd-karl/fzf.vim'
-Plugin 'Yilin-Yang/vim-markbar'
 Plugin 'wellle/targets.vim'
 Plugin 'thiagoalessio/rainbow_levels.vim'
 Plugin 'vim-airline/vim-airline-themes'
@@ -51,6 +50,8 @@ Plugin 'kana/vim-textobj-indent'
 Plugin 'kana/vim-textobj-line'
 Plugin 'martong/vim-compiledb-path'
 Plugin 'skywind3000/asyncrun.vim'
+Plugin 'mhinz/vim-startify'
+
 " ncm 2 and sources
 Plugin 'roxma/nvim-yarp'
 Plugin 'roxma/vim-hug-neovim-rpc'
@@ -466,6 +467,7 @@ nmap <leader>E <Plug>(RegEditPostfix)
 let g:ale_lint_on_text_changed='never'
 let g:ale_lint_on_enter=0
 let g:ale_lint_on_save=0
+let g:ale_fix_on_save=1
 let g:ale_tcl_nagelfar_executable='nagelfar'
 let g:ale_set_quickfix=1
 let g:ale_open_list=0
@@ -486,7 +488,6 @@ let g:ale_tcl_nagelfar_options='-filter "*Unknown command*"'
 
 let g:ale_fixers={'cpp': ['uncrustify']}
 let g:ale_c_uncrustify_options='-l CPP -c /home/dak/tools/code\ fixing/cpp.cfg'
-let g:ale_fix_on_save=1
 
 augroup ale_lint_tcl_on_save
     autocmd!
@@ -513,6 +514,7 @@ nmap <leader>av <Plug>(ale_detail)
 
 " Codi{{{
 let g:codi#autocmd='InsertLeave'
+let g:codi#log='/tmp/codi.log'
 "}}}
 
 " AsyncRun{{{{{{
@@ -564,6 +566,13 @@ nnoremap <leader>le :call LanguageClient#explainErrorAtPoint()<CR>
 
 " }}}
 
+" Startify{{{
+let g:startify_fortune_use_unicode=1
+let g:startify_enable_special = 0
+
+autocmd User Startified for key in ['q'] |
+      \ execute 'nunmap <buffer>' key | endfor
+"}}}
 
 " -----------------
 " Useful Functions
@@ -577,8 +586,8 @@ set complete=.,w,b,u,t,k
 
 " Personal bindings{{{
 " abbreviation for make in quickfix list
-ca amake AsyncRun make
-ca amakeb AsyncRun cd build && make
+ca amake AsyncRun make -j 3
+ca amakeb AsyncRun cd build && make -j 3
 ca atest AsyncRun cd build && ctest -V
 
 " jump to end of recently yanked text
