@@ -551,7 +551,6 @@ au TextChangedI * call ncm2#auto_trigger()
 
 let g:LanguageClient_settingsPath = '/home/dak/.vim/settings.json'
 let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
-" https://github.com/autozimu/LanguageClient-neovim/issues/379 LSP snippet is not supported
 let g:LanguageClient_hasSnippetSupport = 1
 
 " keybindings
@@ -559,6 +558,7 @@ nnoremap <leader>lc :call LanguageClient_contextMenu()<CR>
 nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
 nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
 nnoremap <leader>li :call LanguageClient#textDocument_implementation()<CR>
+nnoremap <leader>lw :call LanguageClient#workspace_symbol()<CR>
 nnoremap <leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
 nnoremap <leader>lr :call LanguageClient#textDocument_references()<CR>
 nnoremap <leader>la :call LanguageClient#textDocument_codeAction()<CR>
