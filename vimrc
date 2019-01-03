@@ -61,6 +61,9 @@ Plugin 'ncm2/ncm2-path'
 Plugin 'ncm2/ncm2-ultisnips'
 Plugin 'autozimu/LanguageClient-neovim'
 
+Plugin 'othree/xml.vim'
+Plugin 'prendradjaja/vim-vertigo'
+
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -466,7 +469,7 @@ nmap <leader>E <Plug>(RegEditPostfix)
 " ALE {{{
 let g:ale_lint_on_text_changed='never'
 let g:ale_lint_on_enter=0
-let g:ale_lint_on_save=0
+let g:ale_lint_on_save=1
 let g:ale_fix_on_save=1
 let g:ale_tcl_nagelfar_executable='nagelfar'
 let g:ale_set_quickfix=1
@@ -489,9 +492,14 @@ let g:ale_tcl_nagelfar_options='-filter "*Unknown command*"'
 let g:ale_fixers={'cpp': ['uncrustify']}
 let g:ale_c_uncrustify_options='-l CPP -c /home/dak/tools/code\ fixing/cpp.cfg'
 
-augroup ale_lint_tcl_on_save
+augroup ale_disable_in_cpp
     autocmd!
-    autocmd FileType tcl let b:ale_lint_on_save=1
+    autocmd FileType cpp let b:ale_enabled=0
+augroup END
+
+augroup ale_lint_on_save
+    autocmd!
+    autocmd FileType tcl let g:ale_lint_on_save=1
 augroup END
 
 " autocommand to open quickfix list as the bottom window
@@ -554,16 +562,38 @@ let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if yo
 let g:LanguageClient_hasSnippetSupport = 1
 
 " keybindings
-nnoremap <leader>lc :call LanguageClient_contextMenu()<CR>
+nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
 nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
 nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
 nnoremap <leader>li :call LanguageClient#textDocument_implementation()<CR>
 nnoremap <leader>lw :call LanguageClient#workspace_symbol()<CR>
-nnoremap <leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
+nnoremap <leader>ll :call LanguageClient#textDocument_documentSymbol()<CR>
 nnoremap <leader>lr :call LanguageClient#textDocument_references()<CR>
 nnoremap <leader>la :call LanguageClient#textDocument_codeAction()<CR>
 nnoremap <leader>le :call LanguageClient#explainErrorAtPoint()<CR>
 
+" Custom cross-reference calls to CCLS
+" bases
+nnoremap <leader>lb :call LanguageClient#findLocations({'method':'$ccls/inheritance'})<cr>
+" bases of up to 3 levels
+nnoremap <leader>lB :call LanguageClient#findLocations({'method':'$ccls/inheritance','levels':3})<cr>
+" derived
+nnoremap <leader>lD :call LanguageClient#findLocations({'method':'$ccls/inheritance','derived':v:true})<cr>
+" derived of up to 3 levels
+" nnoremap <leader>lD :call LanguageClient#findLocations({'method':'$ccls/inheritance','derived':v:true,'levels':3})<cr>
+
+" caller
+nnoremap <leader>lc :call LanguageClient#findLocations({'method':'$ccls/call'})<cr>
+" callee
+nnoremap <leader>lC :call LanguageClient#findLocations({'method':'$ccls/call','callee':v:true})<cr>
+
+" $ccls/member
+" nested classes / types in a namespace
+nnoremap <leader>ls :call LanguageClient#findLocations({'method':'$ccls/member','kind':2})<cr>
+" member functions / functions in a namespace
+nnoremap <leader>lf :call LanguageClient#findLocations({'method':'$ccls/member','kind':3})<cr>
+" member variables / variables in a namespace
+nnoremap <leader>lM :call LanguageClient#findLocations({'method':'$ccls/member'})<cr>
 " }}}
 
 " Startify{{{
@@ -572,6 +602,15 @@ let g:startify_enable_special = 0
 
 autocmd User Startified for key in ['q'] |
       \ execute 'nunmap <buffer>' key | endfor
+"}}}
+
+" vertigo {{{
+nnoremap <silent> <Space>j :<C-U>VertigoDown n<CR>
+vnoremap <silent> <Space>j :<C-U>VertigoDown v<CR>
+onoremap <silent> <Space>j :<C-U>VertigoDown o<CR>
+nnoremap <silent> <Space>k :<C-U>VertigoUp n<CR>
+vnoremap <silent> <Space>k :<C-U>VertigoUp v<CR>
+onoremap <silent> <Space>k :<C-U>VertigoUp o<CR>
 "}}}
 
 " -----------------
