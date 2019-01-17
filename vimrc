@@ -517,7 +517,19 @@ nmap <leader>ad <Plug>(ale_go_to_definition)
 nmap <leader>at <Plug>(ale_go_to_definition_in_tab)
 nmap <leader>av <Plug>(ale_detail)
 
+function! ToggleALE()
+    if b:ale_enabled == 0
+        let b:ale_enabled=1
+        echo "ALE linting enabled!"
+    else
+        let b:ale_enabled=0
+        ALEDisable
+        echo "ALE linting disabled!"
+        ALEEnable
+    endif
+endfunction
 
+nnoremap <leader>at :call ToggleALE()<cr>
 "}}}
 
 " Codi{{{
@@ -560,6 +572,11 @@ au TextChangedI * call ncm2#auto_trigger()
 let g:LanguageClient_settingsPath = '/home/dak/.vim/settings.json'
 let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
 let g:LanguageClient_hasSnippetSupport = 1
+
+" let g:LanguageClient_rootMarkers = {
+"     \ 'cpp' : ['.git', '.ccls-root', '.project'], 
+"     \ 'c' : ['.git', '.ccls-root', '.project']
+"     \ }
 
 " keybindings
 nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
@@ -652,8 +669,8 @@ endfunction
 
 "diff mode {{{
 nnoremap <leader>dt :diffthis<CR>
-nnoremap <leader>bdt :windo diffthis<CR>
-nnoremap <leader>bdo :windo diffoff<CR>
+nnoremap <leader>wdt :windo diffthis<CR>
+nnoremap <leader>wdo :windo diffoff<CR>
 nnoremap <leader>do :diffoff<CR>
 nnoremap <leader>dg :diffget<CR>
 nnoremap <leader>dp :diffput<CR>
