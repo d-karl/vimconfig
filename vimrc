@@ -59,6 +59,7 @@ Plugin 'ncm2/ncm2'
 Plugin 'ncm2/ncm2-bufword'
 Plugin 'ncm2/ncm2-path'
 Plugin 'ncm2/ncm2-ultisnips'
+" Plugin 'fgrsnau/ncm-otherbuf'
 Plugin 'autozimu/LanguageClient-neovim'
 
 Plugin 'othree/xml.vim'
@@ -149,6 +150,9 @@ set softtabstop=4   " backspace
 
 " autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
 autocmd FileType cpp setlocal textwidth=99
+
+autocmd FileType xml setlocal tabstop=2
+autocmd FileType xml setlocal shiftwidth=2
 "}}}
 
 " -----------------
@@ -249,6 +253,7 @@ let g:airline#extensions#windowswap#indicator_text = 'WS'
 " let g:gutentags_project_root=['CM_Project']
 let g:gutentags_cache_dir='/home/dak/.vim/tags-cache/'
 let g:gutentags_ctags_exclude=['.ccls*','.git','CMakeFiles','MakeFile*']
+let g:gutentags_project_root=['.proj_root']
 let g:gutentags_generate_on_missing=0
 let g:gutentags_generate_on_new=0
 let g:gutentags_generate_on_empty_buffer=0
@@ -444,6 +449,7 @@ nmap <F7> :NERDTreeToggle<cr>
 " toggle guide at column 80
 nnoremap <F8> :call <SID>ToggleColorColumn()<cr>
 nmap <F9> :amakeb<CR>
+nmap <F10> :amakeb install<CR>
 nmap  <D-/> :
 nnoremap <leader>a :Rg<space>
 nnoremap <leader>v V`]
@@ -628,6 +634,10 @@ onoremap <silent> <Space>j :<C-U>VertigoDown o<CR>
 nnoremap <silent> <Space>k :<C-U>VertigoUp n<CR>
 vnoremap <silent> <Space>k :<C-U>VertigoUp v<CR>
 onoremap <silent> <Space>k :<C-U>VertigoUp o<CR>
+"}}}
+
+" xml settings{{{
+au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 "}}}
 
 " -----------------
