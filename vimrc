@@ -486,6 +486,8 @@ let g:ale_open_list=0
 let g:ale_completion_enabled=0
 let g:ale_completion_max_suggestions=25
 
+let g:ale_cmake_cmakelint_options='--filter=-linelength'
+
 let g:ale_cpp_clangtidy_checks=['modernize*', 'readability*', 'performance*', 'clang-analyzer*', '*cpp*']
 
 let g:ale_linters={
@@ -583,7 +585,7 @@ let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if yo
 let g:LanguageClient_hasSnippetSupport = 1
 
 " let g:LanguageClient_rootMarkers = {
-"     \ 'cpp' : ['.git', '.ccls-root', '.project'], 
+"     \ 'cpp' : ['.git', '.ccls-root', '.project'],
 "     \ 'c' : ['.git', '.ccls-root', '.project']
 "     \ }
 
