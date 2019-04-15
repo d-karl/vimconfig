@@ -59,7 +59,7 @@ Plugin 'ncm2/ncm2'
 Plugin 'ncm2/ncm2-bufword'
 Plugin 'ncm2/ncm2-path'
 Plugin 'ncm2/ncm2-ultisnips'
-" Plugin 'fgrsnau/ncm-otherbuf'
+Plugin 'fgrsnau/ncm-otherbuf'
 Plugin 'autozimu/LanguageClient-neovim'
 
 Plugin 'othree/xml.vim'
@@ -139,6 +139,9 @@ set directory=~/.vim/tmp                         " move swp file to /tmp
 set virtualedit=onemore
 set visualbell                                   " use visual bell instead of beeping
 
+set wildmenu
+set wildmode=longest,full
+
 " Default Indentation
 set autoindent
 set expandtab       " expand tab to space
@@ -148,8 +151,8 @@ set shiftwidth=4
 set softtabstop=4   " backspace
 " set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
 
-" autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
-autocmd FileType cpp setlocal textwidth=99
+autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
+autocmd FileType cpp setlocal textwidth=100
 
 autocmd FileType xml setlocal tabstop=2
 autocmd FileType xml setlocal shiftwidth=2
@@ -791,9 +794,9 @@ call GoColorsDark()
 set guioptions=cm
 
 " when running inside tmux
-if $TMUX != ''
-    set notermguicolors
-    set background=dark
-endif
+" if $TMUX != ''
+"     set notermguicolors
+"     set background=dark
+" endif
 
 " vim:sw=4:ts=4:tw=79:fdl=0:fdm=marker:
