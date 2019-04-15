@@ -51,6 +51,7 @@ Plugin 'kana/vim-textobj-line'
 Plugin 'martong/vim-compiledb-path'
 Plugin 'skywind3000/asyncrun.vim'
 Plugin 'mhinz/vim-startify'
+Plugin 'easymotion/vim-easymotion'
 
 " ncm 2 and sources
 Plugin 'roxma/nvim-yarp'
@@ -453,6 +454,7 @@ nmap <F7> :NERDTreeToggle<cr>
 nnoremap <F8> :call <SID>ToggleColorColumn()<cr>
 nmap <F9> :amakeb<CR>
 nmap <F10> :amakeb install<CR>
+nmap <F11> :call <SID>SetBuildFolder()<cr>
 nmap  <D-/> :
 nnoremap <leader>a :Rg<space>
 nnoremap <leader>v V`]
@@ -657,9 +659,19 @@ set complete=.,w,b,u,t,k
 
 " Personal bindings{{{
 " abbreviation for make in quickfix list
+let g:build_folder = 'build-debug'
+function! s:SetBuildFolder()
+    call inputsave()
+    let l:build_folder_new = input("change build folder to: ", g:build_folder)
+    if (l:build_folder_new != "")
+        let g:build_folder = l:build_folder_new
+    endif
+    call inputrestore()
+endfunction
+
 ca amake AsyncRun make -j 3
-ca amakeb AsyncRun cd build && make -j 3
-ca atest AsyncRun cd build && ctest -V
+ca amakeb AsyncRun cd =g:build_folder && make -j 3
+ca atest AsyncRun cd =g:build_folder && ctest -V
 
 " jump to end of recently yanked text
 nnoremap <leader>gy ']
