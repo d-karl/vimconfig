@@ -1,5 +1,6 @@
 {
         "initializationOptions": {
-                "cacheDirectory": "/tmp/ccls"
+                "cacheDirectory": "/tmp/ccls",
+                "ignoredRootPaths" : ["/fs"]
         }
 }
