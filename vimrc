@@ -84,7 +84,7 @@ filetype plugin indent on    " required
 let mapleader = " "
 let maplocalleader = "\\"
 
-let g:python3_host_prog='/home/dak/tools/install/bin/python3.7'
+" let g:python3_host_prog='/home/dak/tools/install/bin/python3.7'
 
 " Vim Settings{{{
 "--------
@@ -255,7 +255,7 @@ let g:airline#extensions#windowswap#indicator_text = 'WS'
 
 "Gutentags{{{
 " let g:gutentags_project_root=['CM_Project']
-let g:gutentags_cache_dir='/home/dak/.vim/tags-cache/'
+let g:gutentags_cache_dir='~/.vim/tags-cache/'
 let g:gutentags_ctags_exclude=['.ccls*','.git','CMakeFiles','MakeFile*']
 let g:gutentags_project_root=['.proj_root']
 let g:gutentags_generate_on_missing=0
@@ -503,7 +503,7 @@ let g:ale_cpp_ccls_init_options={'cacheDirectory': '/tmp/ccls'}
 let g:ale_tcl_nagelfar_options='-filter "*Unknown command*"'
 
 let g:ale_fixers={'cpp': ['uncrustify']}
-let g:ale_c_uncrustify_options='-l CPP -c /home/dak/tools/code\ fixing/cpp.cfg'
+" let g:ale_c_uncrustify_options='-l CPP -c /home/dak/tools/code\ fixing/cpp.cfg'
 
 augroup ale_disable_in_cpp
     autocmd!
@@ -582,7 +582,7 @@ let g:LanguageClient_serverCommands = {
 
 au TextChangedI * call ncm2#auto_trigger()
 
-let g:LanguageClient_settingsPath = '/home/dak/.vim/settings.json'
+let g:LanguageClient_settingsPath = '~/.vim/settings.json'
 let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
 let g:LanguageClient_hasSnippetSupport = 1
 
