@@ -213,7 +213,6 @@ nnoremap <silent> <localleader>[ :call ToggleYcm()<CR>
 inoremap <silent> <localleader>[ <c-o>:call ToggleYcm()<CR>
 "}}}
 
-
 " Use FZF on quickfix and LocationList contents{{{
 command! QuickFix call <SID>QuickFix()
 command! LocationList call <SID>LocationList()
@@ -229,8 +228,8 @@ endfunction
 function! s:FuzzyPick(items, jump) abort
   let items = map(a:items, {idx, item ->
       \ string(idx).' '.bufname(item.bufnr).' '.item.text})
-  call fzf#run({'source': items, 'sink': function('<SID>Pick', [a:jump]),
-      \'options': '--with-nth 2.. --reverse', 'down': '40%'})
+  call fzf#run(fzf#wrap('fuzzy-pick', {'source': items, 'sink': function('<SID>Pick', [a:jump]),
+      \'options': '--with-nth 2.. --reverse', 'down': '40%'}))
 endfunction
 
 function! s:Pick(jump, item) abort
@@ -628,6 +627,8 @@ nmap <leader>le <Plug>(lsp-document-diagnostics)
 nmap <leader>lf <Plug>(lsp-next-reference)
 nmap <leader>lb <Plug>(lsp-previous-reference)
 nmap <leader>ln <Plug>(lsp-next-error)
+
+let g:ccls_size=70
 
 " color settings for semantic highlighting
 hi link LspCxxHlGroupMemberVariable Normal
