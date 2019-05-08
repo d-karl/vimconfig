@@ -60,11 +60,16 @@ Plugin 'ncm2/ncm2'
 Plugin 'ncm2/ncm2-bufword'
 Plugin 'ncm2/ncm2-path'
 Plugin 'ncm2/ncm2-ultisnips'
+Plugin 'ncm2/ncm2-vim-lsp'
 Plugin 'fgrsnau/ncm-otherbuf'
-Plugin 'autozimu/LanguageClient-neovim'
+" Plugin 'autozimu/LanguageClient-neovim'
+Plugin 'prabirshrestha/async.vim'
+Plugin 'prabirshrestha/vim-lsp'
+Plugin 'jackguo380/vim-lsp-cxx-highlight'
 
 Plugin 'othree/xml.vim'
 Plugin 'prendradjaja/vim-vertigo'
+Plugin 'm-pilia/vim-ccls'
 
 
 " Color Schemes{{{
@@ -208,6 +213,31 @@ nnoremap <silent> <localleader>[ :call ToggleYcm()<CR>
 inoremap <silent> <localleader>[ <c-o>:call ToggleYcm()<CR>
 "}}}
 
+
+" Use FZF on quickfix and LocationList contents{{{
+command! QuickFix call <SID>QuickFix()
+command! LocationList call <SID>LocationList()
+
+function! s:QuickFix() abort
+  call s:FuzzyPick(getqflist(), 'cc')
+endfunction
+
+function! s:LocationList() abort
+  call s:FuzzyPick(getloclist(0), 'll')
+endfunction
+
+function! s:FuzzyPick(items, jump) abort
+  let items = map(a:items, {idx, item ->
+      \ string(idx).' '.bufname(item.bufnr).' '.item.text})
+  call fzf#run({'source': items, 'sink': function('<SID>Pick', [a:jump]),
+      \'options': '--with-nth 2.. --reverse', 'down': '40%'})
+endfunction
+
+function! s:Pick(jump, item) abort
+  let idx = split(a:item, ' ')[0]
+  execute a:jump idx + 1
+endfunction
+"}}}
 "-----------------
 " Plugin settings
 "-----------------
@@ -394,6 +424,7 @@ noremap <leader>fgc :Commits<CR>
 noremap <leader>fs :Snippets<CR>
 noremap <leader>fgs :GFiles?<CR>
 noremap <leader>fgf :GFiles<CR>
+noremap <leader>fq :QuickFix<CR>
 
 " CTRL-A CTRL-Q to select all and build quickfix list
 
@@ -550,80 +581,80 @@ let g:codi#autocmd='InsertLeave'
 let g:codi#log='/tmp/codi.log'
 "}}}
 
-" AsyncRun{{{{{{
+" AsyncRun{{{
 let g:asyncrun_open=15
 "}}}
 
-" NCM2
+" NCM2 {{{
 " enable ncm2 for all buffers
     autocmd BufEnter * call ncm2#enable_for_buffer()
-    autocmd BufEnter * call  LanguageClient#setDiagnosticsList('Location')
+    " autocmd BufEnter * call  LanguageClient#setDiagnosticsList('Location')
 
 
     " IMPORTANTE: :help Ncm2PopupOpen for more information
     set completeopt=noinsert,menuone,noselect
-"}}}
-
-" NCM2{{{
     inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
     inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+au TextChangedI * call ncm2#auto_trigger()
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 "}}}
 
 " LanguageServer{{{
-inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 
-let g:LanguageClient_serverCommands = {
-    \ 'c': ['ccls', '--log-file=/tmp/cc.log'],
-    \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
-    \ 'cuda': ['ccls', '--log-file=/tmp/cc.log'],
-    \ 'objc': ['ccls', '--log-file=/tmp/cc.log'],
-    \ }
-
-au TextChangedI * call ncm2#auto_trigger()
-
-let g:LanguageClient_settingsPath = '~/.vim/settings.json'
-let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
-let g:LanguageClient_hasSnippetSupport = 1
-
-" let g:LanguageClient_rootMarkers = {
-"     \ 'cpp' : ['.git', '.ccls-root', '.project'],
-"     \ 'c' : ['.git', '.ccls-root', '.project']
-"     \ }
+" Register ccls C++ lanuage server.
+if executable('ccls')
+   au User lsp_setup call lsp#register_server({
+      \ 'name': 'ccls',
+      \ 'cmd': {server_info->['ccls']},
+      \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+      \ 'initialization_options': {'cache': {'directory': '/tmp/ccls/cache' }},
+      \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+      \ })
+endif
 
 " keybindings
-nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
-nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-nnoremap <leader>li :call LanguageClient#textDocument_implementation()<CR>
-nnoremap <leader>lw :call LanguageClient#workspace_symbol()<CR>
-nnoremap <leader>ll :call LanguageClient#textDocument_documentSymbol()<CR>
-nnoremap <leader>lr :call LanguageClient#textDocument_references()<CR>
-nnoremap <leader>la :call LanguageClient#textDocument_codeAction()<CR>
-nnoremap <leader>le :call LanguageClient#explainErrorAtPoint()<CR>
+" nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+nmap <leader>lh <Plug>(lsp-hover)
+nmap <leader>ld <Plug>(lsp-definition)
+nmap <leader>li <Plug>(lsp-implementation)
+nmap <leader>lw <Plug>(lsp-workspace-symbol)
+nmap <leader>ll <Plug>(lsp-document-symbol)
+nmap <leader>lr <Plug>(lsp-references)
+nmap <leader>la <Plug>(lsp-code-action)
+nmap <leader>le <Plug>(lsp-document-diagnostics)
+
+nmap <leader>lf <Plug>(lsp-next-reference)
+nmap <leader>lb <Plug>(lsp-previous-reference)
+nmap <leader>ln <Plug>(lsp-next-error)
+
+" color settings for semantic highlighting
+hi link LspCxxHlGroupMemberVariable Normal
+hi link LspCxxHlGroupNamespace cppExceptions
 
 " Custom cross-reference calls to CCLS
 " bases
-nnoremap <leader>lb :call LanguageClient#findLocations({'method':'$ccls/inheritance'})<cr>
-" bases of up to 3 levels
-nnoremap <leader>lB :call LanguageClient#findLocations({'method':'$ccls/inheritance','levels':3})<cr>
-" derived
-nnoremap <leader>lD :call LanguageClient#findLocations({'method':'$ccls/inheritance','derived':v:true})<cr>
-" derived of up to 3 levels
-" nnoremap <leader>lD :call LanguageClient#findLocations({'method':'$ccls/inheritance','derived':v:true,'levels':3})<cr>
+" nnoremap <leader>lb :call LanguageClient#findLocations({'method':'$ccls/inheritance'})<cr>
+" " bases of up to 3 levels
+" nnoremap <leader>lB :call LanguageClient#findLocations({'method':'$ccls/inheritance','levels':3})<cr>
+" " derived
+" nnoremap <leader>lD :call LanguageClient#findLocations({'method':'$ccls/inheritance','derived':v:true})<cr>
+" " derived of up to 3 levels
+" " nnoremap <leader>lD :call LanguageClient#findLocations({'method':'$ccls/inheritance','derived':v:true,'levels':3})<cr>
 
-" caller
-nnoremap <leader>lc :call LanguageClient#findLocations({'method':'$ccls/call'})<cr>
-" callee
-nnoremap <leader>lC :call LanguageClient#findLocations({'method':'$ccls/call','callee':v:true})<cr>
+" " caller
+" nnoremap <leader>lc :call LanguageClient#findLocations({'method':'$ccls/call'})<cr>
+" " callee
+" nnoremap <leader>lC :call LanguageClient#findLocations({'method':'$ccls/call','callee':v:true})<cr>
 
-" $ccls/member
-" nested classes / types in a namespace
-nnoremap <leader>ls :call LanguageClient#findLocations({'method':'$ccls/member','kind':2})<cr>
-" member functions / functions in a namespace
-nnoremap <leader>lf :call LanguageClient#findLocations({'method':'$ccls/member','kind':3})<cr>
-" member variables / variables in a namespace
-nnoremap <leader>lM :call LanguageClient#findLocations({'method':'$ccls/member'})<cr>
+" " $ccls/member
+" " nested classes / types in a namespace
+" nnoremap <leader>ls :call LanguageClient#findLocations({'method':'$ccls/member','kind':2})<cr>
+" " member functions / functions in a namespace
+" nnoremap <leader>lf :call LanguageClient#findLocations({'method':'$ccls/member','kind':3})<cr>
+" " member variables / variables in a namespace
+" nnoremap <leader>lM :call LanguageClient#findLocations({'method':'$ccls/member'})<cr>
 " }}}
 
 " Startify{{{
