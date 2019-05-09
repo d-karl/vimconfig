@@ -64,13 +64,13 @@ Plugin 'ncm2/ncm2-vim-lsp'
 Plugin 'fgrsnau/ncm-otherbuf'
 " Plugin 'autozimu/LanguageClient-neovim'
 Plugin 'prabirshrestha/async.vim'
-Plugin 'prabirshrestha/vim-lsp'
 Plugin 'jackguo380/vim-lsp-cxx-highlight'
 
 Plugin 'othree/xml.vim'
 Plugin 'prendradjaja/vim-vertigo'
 Plugin 'm-pilia/vim-ccls'
-
+Plugin 'thomasfaingnaert/vim-lsp', {'pinned': '1'}
+Plugin 'thomasfaingnaert/vim-lsp-ultisnips'
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -611,6 +611,7 @@ if executable('ccls')
       \ 'initialization_options': {'cache': {'directory': '/tmp/ccls/cache' }},
       \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
       \ })
+    autocmd FileType c,cpp,objc,objcpp,cc setlocal omnifunc=lsp#complete
 endif
 
 " keybindings
@@ -633,6 +634,7 @@ let g:ccls_size=70
 " color settings for semantic highlighting
 hi link LspCxxHlGroupMemberVariable Normal
 hi link LspCxxHlGroupNamespace cppExceptions
+hi link lspReference SpellLocal
 
 " Custom cross-reference calls to CCLS
 " bases
