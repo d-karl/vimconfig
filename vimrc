@@ -129,7 +129,7 @@ set confirm                                      " prompt when existing from an 
 
 " folding
 set foldenable
-set foldlevelstart=6
+set foldlevelstart=8
 
 set backspace=indent,eol,start                   " More powerful backspacing
 set t_Co=256                                     " Explicitly tell vim that the terminal has 256 colors "
@@ -535,13 +535,14 @@ let g:ale_cpp_ccls_init_options={'cacheDirectory': '/tmp/ccls'}
 
 let g:ale_tcl_nagelfar_options='-filter "*Unknown command*"'
 
-let g:ale_fixers={'cpp': ['uncrustify']}
+let g:ale_fixers={'cpp': ['uncrustify'], 'c': ['uncrustify']}
 let g:ale_c_uncrustify_options='-l CPP -c /home/dak/tools/code\ fixing/cpp.cfg'
 
 augroup ale_disable_in_cpp
     autocmd!
     autocmd FileType cpp let b:ale_enabled=0
     autocmd FileType c let b:ale_enabled=0
+    autocmd FileType c let b:ale_fix_on_save=0
 augroup END
 
 augroup ale_lint_on_save
@@ -614,7 +615,7 @@ if executable('ccls')
       \ 'name': 'ccls',
       \ 'cmd': {server_info->['ccls','--log-file=/tmp/cc.log']},
       \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-      \ 'initialization_options': {'cacheDirectory':'/tmp/ccls'},
+      \ 'initialization_options': {'cache': {'directory': '/tmp/ccls/cache' }},
       \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
       \ })
 endif
@@ -629,6 +630,7 @@ nmap <leader>ll <Plug>(lsp-document-symbol)
 nmap <leader>lr <Plug>(lsp-references)
 nmap <leader>la <Plug>(lsp-code-action)
 nmap <leader>le <Plug>(lsp-document-diagnostics)
+nmap <leader>lR <Plug>(lsp-rename)
 
 nmap <leader>lf <Plug>(lsp-next-reference)
 nmap <leader>lb <Plug>(lsp-previous-reference)
