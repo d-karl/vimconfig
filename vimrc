@@ -69,6 +69,7 @@ Plugin 'jackguo380/vim-lsp-cxx-highlight'
 Plugin 'othree/xml.vim'
 Plugin 'prendradjaja/vim-vertigo'
 Plugin 'm-pilia/vim-ccls'
+" vim-lsp needs special branch ultisnips-integration for snipppts to work!
 Plugin 'thomasfaingnaert/vim-lsp', {'pinned': '1'}
 Plugin 'thomasfaingnaert/vim-lsp-ultisnips'
 
@@ -117,6 +118,7 @@ set hidden
 syntax on
 " search
 set incsearch
+set nohlsearch
 "set highlight 	                                 " conflict with highlight current line
 set ignorecase
 set smartcase
@@ -520,11 +522,12 @@ let g:ale_completion_max_suggestions=25
 
 let g:ale_cmake_cmakelint_options='--filter=-linelength'
 
-let g:ale_cpp_clangtidy_checks=['modernize*', 'readability*', 'performance*', 'clang-analyzer*', '*cpp*']
+let g:ale_cpp_clangtidy_checks=['modernize*', 'readability*', '-readability-braces-around-statements', 'performance*', 'clang-analyzer*', '*cpp*']
+let g:ale_c_clangtidy_checks=['readability*', 'performance*', '-readability-braces-around-statements', 'clang-analyzer*']
 
 let g:ale_linters={
 \   'tcl': ['nagelfar'],
-\   'c'  : [],
+\   'c'  : ['clangtidy'],
 \   'cpp': ['clangtidy']
 \}
 
@@ -538,6 +541,7 @@ let g:ale_c_uncrustify_options='-l CPP -c /home/dak/tools/code\ fixing/cpp.cfg'
 augroup ale_disable_in_cpp
     autocmd!
     autocmd FileType cpp let b:ale_enabled=0
+    autocmd FileType c let b:ale_enabled=0
 augroup END
 
 augroup ale_lint_on_save
@@ -592,7 +596,6 @@ let g:asyncrun_open=15
 
     " IMPORTANTE: :help Ncm2PopupOpen for more information
     set completeopt=noinsert,menuone,noselect
-    inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
     inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
@@ -602,16 +605,18 @@ inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 
 " LanguageServer{{{
 
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = '/tmp/vim-lsp.log'
+
 " Register ccls C++ lanuage server.
 if executable('ccls')
    au User lsp_setup call lsp#register_server({
       \ 'name': 'ccls',
-      \ 'cmd': {server_info->['ccls']},
+      \ 'cmd': {server_info->['ccls','--log-file=/tmp/cc.log']},
       \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-      \ 'initialization_options': {'cache': {'directory': '/tmp/ccls/cache' }},
+      \ 'initialization_options': {'cacheDirectory':'/tmp/ccls'},
       \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
       \ })
-    autocmd FileType c,cpp,objc,objcpp,cc setlocal omnifunc=lsp#complete
 endif
 
 " keybindings
@@ -629,40 +634,42 @@ nmap <leader>lf <Plug>(lsp-next-reference)
 nmap <leader>lb <Plug>(lsp-previous-reference)
 nmap <leader>ln <Plug>(lsp-next-error)
 
-let g:ccls_size=70
+nmap ]c <Plug>(lsp-next-reference)
+nmap [c <Plug>(lsp-previous-reference)
 
 " color settings for semantic highlighting
 hi link LspCxxHlGroupMemberVariable Normal
 hi link LspCxxHlGroupNamespace cppExceptions
 hi link lspReference SpellLocal
 
+"vim-ccls
+let g:ccls_levels = 3
+let g:ccls_size = 70
+
 " Custom cross-reference calls to CCLS
 " bases
-" nnoremap <leader>lb :call LanguageClient#findLocations({'method':'$ccls/inheritance'})<cr>
-" " bases of up to 3 levels
-" nnoremap <leader>lB :call LanguageClient#findLocations({'method':'$ccls/inheritance','levels':3})<cr>
+nnoremap <leader>lb :CclsBaseHierarchy<cr>
 " " derived
-" nnoremap <leader>lD :call LanguageClient#findLocations({'method':'$ccls/inheritance','derived':v:true})<cr>
-" " derived of up to 3 levels
-" " nnoremap <leader>lD :call LanguageClient#findLocations({'method':'$ccls/inheritance','derived':v:true,'levels':3})<cr>
+nnoremap <leader>lD :CclsDerivedHierarchy<cr>
 
 " " caller
-" nnoremap <leader>lc :call LanguageClient#findLocations({'method':'$ccls/call'})<cr>
+nnoremap <leader>lc :CclsCallHierarchy<cr>
 " " callee
-" nnoremap <leader>lC :call LanguageClient#findLocations({'method':'$ccls/call','callee':v:true})<cr>
+nnoremap <leader>lC :CclsCalleeHierarchy<cr>
 
 " " $ccls/member
 " " nested classes / types in a namespace
-" nnoremap <leader>ls :call LanguageClient#findLocations({'method':'$ccls/member','kind':2})<cr>
+nnoremap <leader>ls :CclsMemberHierarchy<cr>
 " " member functions / functions in a namespace
 " nnoremap <leader>lf :call LanguageClient#findLocations({'method':'$ccls/member','kind':3})<cr>
 " " member variables / variables in a namespace
-" nnoremap <leader>lM :call LanguageClient#findLocations({'method':'$ccls/member'})<cr>
+nnoremap <leader>lM :CclsVars<cr>
 " }}}
 
 " Startify{{{
 let g:startify_fortune_use_unicode=1
 let g:startify_enable_special = 0
+let g:startify_session_dir = '/home/dak/.vim/session'
 
 autocmd User Startified for key in ['q'] |
       \ execute 'nunmap <buffer>' key | endfor
@@ -715,6 +722,16 @@ nnoremap <leader>rw :%s/\s\+$//e<CR>
 " open a terminal in a vert split
 nnoremap <silent> <leader>t :vert terminal<CR>
 nnoremap <silent> <leader>th :terminal<CR>
+
+" open a terminal in a vert split
+if has('nvim')
+    nnoremap <silent> <leader>th :split <bar> terminal<CR>
+    nnoremap <silent> <leader>t :vsplit <bar> terminal<CR>
+else
+    nnoremap <silent> <leader>t :vert terminal<CR>
+    nnoremap <silent> <leader>th :terminal<CR>
+endif
+
 set tw=79       " width of document (used by gd)
 set nowrap      " don't automatically wrap on load
 set fo-=t       " don't automatically wrap text when typing
@@ -782,10 +799,18 @@ nnoremap <c-s> :w<CR>
 "}}}
 
 " Uniform navigation in terminal mode
+if !has('nvim')
 tnoremap <c-j> <c-w>j
 tnoremap <c-k> <c-w>k
 tnoremap <c-h> <c-w>h
 tnoremap <c-l> <c-w>l
+endif
+
+if has('nvim')
+  tnoremap <C-w>n <C-\><C-n>
+  tnoremap <M-[> <Esc>
+  tnoremap <C-v><Esc> <Esc>
+endif
 
 " Inherited configuration{{{
 " easier navigation between split windows
