@@ -27,6 +27,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'machakann/vim-highlightedyank'
 Plugin 'd-karl/YankRing.vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'PhilRunninger/nerdtree-visual-selection'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'majutsushi/tagbar'
@@ -70,8 +71,10 @@ Plugin 'othree/xml.vim'
 Plugin 'prendradjaja/vim-vertigo'
 Plugin 'm-pilia/vim-ccls'
 " vim-lsp needs special branch ultisnips-integration for snipppts to work!
-Plugin 'thomasfaingnaert/vim-lsp', {'pinned': '1'}
+Plugin 'thomasfaingnaert/vim-lsp'
+Plugin 'thomasfaingnaert/vim-lsp-snippets'
 Plugin 'thomasfaingnaert/vim-lsp-ultisnips'
+Plugin 'apalmer1377/factorus'
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -289,6 +292,7 @@ let g:airline#extensions#windowswap#indicator_text = 'WS'
 let g:gutentags_cache_dir='/home/dak/.vim/tags-cache/'
 let g:gutentags_ctags_exclude=['.ccls*','.git','CMakeFiles','MakeFile*']
 let g:gutentags_project_root=['.proj_root']
+let g:gutentags_exclude_project_root = ['/fs']
 let g:gutentags_generate_on_missing=0
 let g:gutentags_generate_on_new=0
 let g:gutentags_generate_on_empty_buffer=0
@@ -522,7 +526,7 @@ let g:ale_completion_max_suggestions=25
 
 let g:ale_cmake_cmakelint_options='--filter=-linelength'
 
-let g:ale_cpp_clangtidy_checks=['modernize*', 'readability*', '-readability-braces-around-statements', 'performance*', 'clang-analyzer*', '*cpp*']
+let g:ale_cpp_clangtidy_checks=['modernize*', '*cpp*', 'readability*', 'performance*', 'clang-analyzer*', '-readability-braces-around-statements', '-hicpp-braces-around-statements', '-readability-else-after-return']
 let g:ale_c_clangtidy_checks=['readability*', 'performance*', '-readability-braces-around-statements', 'clang-analyzer*']
 
 let g:ale_linters={
@@ -636,13 +640,17 @@ nmap <leader>lf <Plug>(lsp-next-reference)
 nmap <leader>lb <Plug>(lsp-previous-reference)
 nmap <leader>ln <Plug>(lsp-next-error)
 
-nmap ]c <Plug>(lsp-next-reference)
-nmap [c <Plug>(lsp-previous-reference)
+nmap ]v <Plug>(lsp-next-reference)
+nmap [v <Plug>(lsp-previous-reference)
 
 " color settings for semantic highlighting
 hi link LspCxxHlGroupMemberVariable Normal
 hi link LspCxxHlGroupNamespace cppExceptions
 hi link lspReference SpellLocal
+
+nnoremap [lh :LspCxxHighlightDisable<cr>
+nnoremap ]lh :LspCxxHighlight<cr>
+
 
 "vim-ccls
 let g:ccls_levels = 3
@@ -809,9 +817,15 @@ tnoremap <c-l> <c-w>l
 endif
 
 if has('nvim')
-  tnoremap <C-w>n <C-\><C-n>
+  tnoremap <C-w>N <C-\><C-n>
   tnoremap <M-[> <Esc>
   tnoremap <C-v><Esc> <Esc>
+
+  autocmd BufEnter term://* tnoremap <buffer> <C-h> <C-\><C-n><C-w>h
+  autocmd BufEnter term://* tnoremap <buffer> <C-j> <C-\><C-n><C-w>j
+  autocmd BufEnter term://* tnoremap <buffer> <C-k> <C-\><C-n><C-w>k
+  autocmd BufEnter term://* tnoremap <buffer> <C-l> <C-\><C-n><C-w>l
+  autocmd BufEnter term://* tnoremap <buffer> <Esc> <C-\><C-n>
 endif
 
 " Inherited configuration{{{
