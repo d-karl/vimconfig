@@ -14,7 +14,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'https://github.com/wesQ3/vim-windowswap'
 Plugin 'junegunn/fzf'
-Plugin 'd-karl/fzf.vim'
+Plugin 'junegunn/fzf.vim'
 Plugin 'wellle/targets.vim'
 Plugin 'thiagoalessio/rainbow_levels.vim'
 Plugin 'vim-airline/vim-airline-themes'
@@ -74,7 +74,6 @@ Plugin 'm-pilia/vim-ccls'
 Plugin 'thomasfaingnaert/vim-lsp'
 Plugin 'thomasfaingnaert/vim-lsp-snippets'
 Plugin 'thomasfaingnaert/vim-lsp-ultisnips'
-Plugin 'apalmer1377/factorus'
 
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
@@ -169,53 +168,11 @@ autocmd FileType xml setlocal tabstop=2
 autocmd FileType xml setlocal shiftwidth=2
 "}}}
 
-" -----------------
-" User-defined functions
-"------------------
-" function to toggle ycm auto completion, so default vim autocomplete {{{
-" can be used.
-inoremap <C-x> <C-r>=DisableYCMAuto()<CR><C-x>
-
-augroup RestoreYcm
-    autocmd!
-    autocmd InsertLeave * :call EnableYCMAuto()
-augroup END
-
-function! EnableYCMAuto()
-    if g:ycm_manual_disable == 0
-        let g:ycm_auto_trigger=1
-    endif
-endfunction
-
-function! DisableYCMAuto()
-    if g:ycm_manual_disable == 0
-        let g:ycm_auto_trigger=0
-    endif
-    return ''
-endfunction
-
-let g:ycm_manual_disable = 0
-function! ToggleYcm()
-    if g:ycm_auto_trigger == 0
-        let g:ycm_auto_trigger=1
-        let g:ycm_manual_disable=0
-        echo "YCM enabled!"
-    else
-        let g:ycm_auto_trigger=0
-        let g:ycm_manual_disable=1
-        echo "YCM disabled!"
-    endif
-endfunction
-"}}}
-
 " function to clear a register {{{
 command! -nargs=1 ClearReg call ClearReg( <args> )
 function! ClearReg(reg)
     call setreg(a:reg, [])
 endfunction
-
-nnoremap <silent> <localleader>[ :call ToggleYcm()<CR>
-inoremap <silent> <localleader>[ <c-o>:call ToggleYcm()<CR>
 "}}}
 
 " Use FZF on quickfix and LocationList contents{{{
@@ -424,6 +381,7 @@ noremap <leader>fl :Lines<CR>
 noremap <leader>fT :Tags<CR>
 noremap <leader>ft :BTags<CR>
 noremap <leader>fm :Marks<CR>
+noremap <leader>fM :Maps<CR>
 noremap <leader>fy :Yanks<CR>
 noremap <leader>fgc :Commits<CR>
 noremap <leader>fs :Snippets<CR>
@@ -609,9 +567,7 @@ inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 "}}}
 
 " LanguageServer{{{
-
-let g:lsp_log_verbose = 1
-let g:lsp_log_file = '/tmp/vim-lsp.log'
+let g:lsp_highlight_references_enabled = 1
 
 " Register ccls C++ lanuage server.
 if executable('ccls')
@@ -619,10 +575,14 @@ if executable('ccls')
       \ 'name': 'ccls',
       \ 'cmd': {server_info->['ccls','--log-file=/tmp/cc.log']},
       \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-      \ 'initialization_options': {'cache': {'directory': '/tmp/ccls/cache' }},
+      \ 'initialization_options': {
+      \   'cache': {'directory': '/tmp/ccls/cache' },
+      \   'highlight': { 'lsRanges' : v:true }
+      \ },
       \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
       \ })
 endif
+
 
 " keybindings
 " nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
@@ -650,7 +610,6 @@ hi link lspReference SpellLocal
 
 nnoremap [lh :LspCxxHighlightDisable<cr>
 nnoremap ]lh :LspCxxHighlight<cr>
-
 
 "vim-ccls
 let g:ccls_levels = 3
@@ -713,7 +672,7 @@ set complete=.,w,b,u,t,k
 let g:build_folder = 'build-debug'
 function! s:SetBuildFolder()
     call inputsave()
-    let l:build_folder_new = input("change build folder to: ", g:build_folder)
+    let l:build_folder_new = input("change build folder to: ", g:build_folder, "dir")
     if (l:build_folder_new != "")
         let g:build_folder = l:build_folder_new
     endif
@@ -817,6 +776,7 @@ tnoremap <c-l> <c-w>l
 endif
 
 if has('nvim')
+  set inccommand=nosplit
   tnoremap <C-w>N <C-\><C-n>
   tnoremap <M-[> <Esc>
   tnoremap <C-v><Esc> <Esc>
