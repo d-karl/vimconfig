@@ -505,6 +505,7 @@ augroup ale_disable_in_cpp
     autocmd FileType cpp let b:ale_enabled=0
     autocmd FileType c let b:ale_enabled=0
     autocmd FileType c let b:ale_fix_on_save=0
+    autocmd FileType python let b:ale_enabled=0
 augroup END
 
 augroup ale_lint_on_save
@@ -545,6 +546,12 @@ nnoremap <leader>at :call ToggleALE()<cr>
 " Codi{{{
 let g:codi#autocmd='InsertLeave'
 let g:codi#log='/tmp/codi.log'
+let g:codi#interpreters = {
+   \ 'python': {
+       \ 'bin': 'python3.7',
+       \ 'prompt': '^\(>>>\|\.\.\.\) ',
+       \ },
+   \ }
 "}}}
 
 " AsyncRun{{{
@@ -583,6 +590,21 @@ if executable('ccls')
       \ })
 endif
 
+" Register the python language server.
+if executable('pyls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ 'workspace_config': {
+        \   'pyls': {
+        \     'plugins': {'pydocstyle': {'enabled': v:true},
+        \                 'pycodestyle' : {'maxLineLength': 100}
+        \     }
+        \   }
+        \ }
+        \ })
+endif
 
 " keybindings
 " nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
@@ -595,9 +617,8 @@ nmap <leader>lr <Plug>(lsp-references)
 nmap <leader>la <Plug>(lsp-code-action)
 nmap <leader>le <Plug>(lsp-document-diagnostics)
 nmap <leader>lR <Plug>(lsp-rename)
+nmap <leader>lf <Plug>(lsp-document-format)
 
-nmap <leader>lf <Plug>(lsp-next-reference)
-nmap <leader>lb <Plug>(lsp-previous-reference)
 nmap <leader>ln <Plug>(lsp-next-error)
 
 nmap ]v <Plug>(lsp-next-reference)
@@ -682,6 +703,12 @@ endfunction
 ca amake AsyncRun make -j 3
 ca amakeb AsyncRun cd =g:build_folder && make -j 3
 ca atest AsyncRun cd =g:build_folder && ctest -V
+augroup python_unittest
+    autocmd!
+    autocmd FileType python compiler pyunit
+    autocmd FileType python setlocal makeprg=python3.7\ -m\ unittest\ discover
+augroup END
+ca ptest AsyncRun python3.7 -m unittest
 
 " jump to end of recently yanked text
 nnoremap <leader>gy ']
