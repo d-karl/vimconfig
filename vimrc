@@ -383,7 +383,7 @@ noremap <leader>ft :BTags<CR>
 noremap <leader>fm :Marks<CR>
 noremap <leader>fM :Maps<CR>
 noremap <leader>fy :Yanks<CR>
-noremap <leader>fgc :Commits<CR>
+noremap <leader>fgl :Commits<CR>
 noremap <leader>fs :Snippets<CR>
 noremap <leader>fgs :GFiles?<CR>
 noremap <leader>fgf :GFiles<CR>
@@ -686,6 +686,10 @@ let g:load_doxygen_syntax=1
 let g:termdebug_wide=100
 set scrolloff=10
 set complete=.,w,b,u,t,k
+
+" This fixed Konsole nvim not being resizable, but removes the nicer insert
+" cursor.
+" set guicursor=""
 "}}}
 
 " Personal bindings{{{
