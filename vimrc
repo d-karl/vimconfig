@@ -75,6 +75,10 @@ Plugin 'thomasfaingnaert/vim-lsp'
 Plugin 'thomasfaingnaert/vim-lsp-snippets'
 Plugin 'thomasfaingnaert/vim-lsp-ultisnips'
 
+if has('nvim')
+    Plugin 'ncm2/float-preview.nvim'
+endif
+
 " Color Schemes{{{
 Plugin 'morhetz/gruvbox'
 Plugin 'altercation/vim-colors-solarized'
@@ -808,6 +812,7 @@ endif
 
 if has('nvim')
   set inccommand=nosplit
+  let g:float_preview#docked=0
   tnoremap <C-w>N <C-\><C-n>
   tnoremap <M-[> <Esc>
   tnoremap <C-v><Esc> <Esc>
