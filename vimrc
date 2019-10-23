@@ -75,6 +75,10 @@ Plugin 'thomasfaingnaert/vim-lsp'
 Plugin 'thomasfaingnaert/vim-lsp-snippets'
 Plugin 'thomasfaingnaert/vim-lsp-ultisnips'
 
+Plugin 'jceb/vim-orgmode'
+
+Plugin 'numirias/semshi'
+
 if has('nvim')
     Plugin 'ncm2/float-preview.nvim'
 endif
@@ -573,7 +577,6 @@ let g:asyncrun_open=15
     inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-au TextChangedI * call ncm2#auto_trigger()
 inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 "}}}
 
@@ -603,7 +606,8 @@ if executable('pyls')
         \ 'workspace_config': {
         \   'pyls': {
         \     'plugins': {'pydocstyle': {'enabled': v:true},
-        \                 'pycodestyle' : {'maxLineLength': 100}
+        \                 'pycodestyle' : {'maxLineLength': 100},
+        \                 'jedi_completion': {'include_params': v:true},
         \     }
         \   }
         \ }
