@@ -173,6 +173,7 @@ autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=
 autocmd FileType cpp setlocal textwidth=100
 
 autocmd FileType xml setlocal tabstop=2
+autocmd FileType html setlocal shiftwidth=2
 autocmd FileType xml setlocal shiftwidth=2
 "}}}
 
@@ -684,7 +685,10 @@ onoremap <silent> <Space>k :<C-U>VertigoUp o<CR>
 
 " xml settings{{{
 au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+au FileType xml setlocal shiftwidth=2
 "}}}
+
+au FileType html setlocal shiftwidth=2
 
 " -----------------
 " Useful Functions
