@@ -74,10 +74,12 @@ Plugin 'm-pilia/vim-ccls'
 Plugin 'thomasfaingnaert/vim-lsp'
 Plugin 'thomasfaingnaert/vim-lsp-snippets'
 Plugin 'thomasfaingnaert/vim-lsp-ultisnips'
+Plugin 'liuchengxu/vista.vim'
 
 Plugin 'jceb/vim-orgmode'
 
 Plugin 'numirias/semshi'
+
 
 if has('nvim')
     Plugin 'ncm2/float-preview.nvim'
@@ -388,7 +390,7 @@ noremap <leader>fc :Commands<CR>
 noremap <leader>f? :Helptags<CR>
 noremap <leader>fl :Lines<CR>
 noremap <leader>fT :Tags<CR>
-noremap <leader>ft :BTags<CR>
+noremap <leader>ft :Vista finder fzf<CR>
 noremap <leader>fm :Marks<CR>
 noremap <leader>fM :Maps<CR>
 noremap <leader>fy :Yanks<CR>
@@ -450,7 +452,7 @@ set pastetoggle=<F2>
 nmap <F2> :IndentGuidesToggle<cr>
 nmap <F3> :set hlsearch!<CR>
 nmap <F4> :MundoToggle<cr>
-nmap <F5> :TagbarToggle<cr>
+nmap <F5> :Vista!!<cr>
 nmap <F6> <Plug>ToggleMarkbar
 nmap <F7> :NERDTreeToggle<cr>
 " toggle guide at column 80
@@ -493,7 +495,7 @@ let g:ale_completion_max_suggestions=25
 
 let g:ale_cmake_cmakelint_options='--filter=-linelength'
 
-let g:ale_cpp_clangtidy_checks=['modernize*', '*cpp*', 'readability*', 'performance*', 'clang-analyzer*', '-readability-braces-around-statements', '-hicpp-braces-around-statements', '-readability-else-after-return']
+let g:ale_cpp_clangtidy_checks=['modernize*', 'bugprone*', '*cpp*', 'readability*', 'performance*', 'clang-analyzer*', '-readability-braces-around-statements', '-hicpp-braces-around-statements', '-readability-else-after-return']
 let g:ale_c_clangtidy_checks=['readability*', 'performance*', '-readability-braces-around-statements', 'clang-analyzer*']
 
 let g:ale_linters={
@@ -664,6 +666,21 @@ nnoremap <leader>ls :CclsMemberHierarchy<cr>
 " " member variables / variables in a namespace
 nnoremap <leader>lM :CclsVars<cr>
 " }}}
+
+" Vista{{{
+let g:vista_echo_cursor_strategy = 'floating_win'
+let g:vista_executive_for = {
+  \ 'cpp': 'vim_lsp',
+  \ 'c': 'vim_lsp',
+  \ 'python': 'vim_lsp',
+  \ }
+
+let g:vista_fzf_opt=['-m','--bind','up:preview-up,down:preview-down,left:preview-page-up,right:preview-page-down','--bind','ctrl-a:select-all']
+let g:vista_sidebar_position='vertical botright'
+let g:vista_sidebar_width=50
+let g:vista_close_on_jump=1
+let g:vista_keep_fzf_colors=1
+"}}}
 
 " Startify{{{
 let g:startify_fortune_use_unicode=1
