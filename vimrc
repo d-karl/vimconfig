@@ -21,11 +21,12 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'jwhitley/vim-matchit'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'svermeulen/vim-yoink'
+Plugin 'svermeulen/ncm2-yoink'
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'tpope/vim-repeat'
 Plugin 'machakann/vim-highlightedyank'
-Plugin 'd-karl/YankRing.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'PhilRunninger/nerdtree-visual-selection'
 Plugin 'SirVer/ultisnips'
@@ -306,14 +307,6 @@ autocmd FileType c setlocal omnifunc=
 autocmd FileType cpp setlocal omnifunc=
 "}}}
 
-" Yankring settings{{{
-let g:yankring_min_element_length = 2
-function! YRRunAfterMaps()
-    nnoremap <silent>  Y   :<C-U>YRYankCount 'y$'<CR>
-    unmap @
-endfunction
-"}}}
-
 " Ultisnippets trigger settings{{{
 let g:UltiSnipsExpandTrigger="<C-j>"
 let g:UltiSnipsJumpForwardTrigger="<C-j>"
@@ -393,7 +386,6 @@ noremap <leader>fT :Tags<CR>
 noremap <leader>ft :Vista finder fzf<CR>
 noremap <leader>fm :Marks<CR>
 noremap <leader>fM :Maps<CR>
-noremap <leader>fy :Yanks<CR>
 noremap <leader>fgl :Commits<CR>
 noremap <leader>fs :Snippets<CR>
 noremap <leader>fgs :GFiles?<CR>
@@ -703,6 +695,14 @@ onoremap <silent> <Space>k :<C-U>VertigoUp o<CR>
 " xml settings{{{
 au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 au FileType xml setlocal shiftwidth=2
+"}}}
+
+"Yoink{{{
+nmap <c-n> <plug>(YoinkPostPasteSwapBack)
+nmap <c-p> <plug>(YoinkPostPasteSwapForward)
+nmap p <plug>(YoinkPaste_p)
+nmap P <plug>(YoinkPaste_P)
+let g:yoinkSavePersistently=1
 "}}}
 
 au FileType html setlocal shiftwidth=2
