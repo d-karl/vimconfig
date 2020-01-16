@@ -31,7 +31,6 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'PhilRunninger/nerdtree-visual-selection'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'majutsushi/tagbar'
 Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'mileszs/ack.vim'
 Plugin 'tpope/vim-fugitive'
@@ -72,7 +71,7 @@ Plugin 'othree/xml.vim'
 Plugin 'prendradjaja/vim-vertigo'
 Plugin 'm-pilia/vim-ccls'
 " vim-lsp needs special branch ultisnips-integration for snipppts to work!
-Plugin 'thomasfaingnaert/vim-lsp'
+Plugin 'prabirshrestha/vim-lsp'
 Plugin 'thomasfaingnaert/vim-lsp-snippets'
 Plugin 'thomasfaingnaert/vim-lsp-ultisnips'
 Plugin 'liuchengxu/vista.vim'
@@ -80,7 +79,6 @@ Plugin 'liuchengxu/vista.vim'
 Plugin 'jceb/vim-orgmode'
 
 Plugin 'numirias/semshi'
-
 
 if has('nvim')
     Plugin 'ncm2/float-preview.nvim'
@@ -608,6 +606,16 @@ if executable('pyls')
         \ }
         \ })
 endif
+
+" let g:lsp_log_verbose=1
+" let g:lsp_log_file=expand('/tmp/vim_lsp')
+
+augroup lsp_folding
+autocmd!
+    autocmd FileType cpp setlocal foldmethod=expr
+    autocmd FileType cpp setlocal foldexpr=lsp#ui#vim#folding#foldexpr()
+    autocmd FileType cpp setlocal foldtext=lsp#ui#vim#folding#foldtext()
+augroup end
 
 " keybindings
 " nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
