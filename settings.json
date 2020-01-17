@@ -1,6 +1,14 @@
 {
-        "initializationOptions": {
-                "cacheDirectory": "/tmp/ccls",
-                "ignoredRootPaths" : ["/fs"]
-        }
+    "initializationOptions": {
+      "cache": {"directory": "/tmp/ccls/cache" },
+      "highlight": { "lsRanges" : true },
+      "ignoredRootPaths" : ["/fs"]
+    },
+    "pyls": {
+      "plugins": {"pydocstyle": {"enabled": true},
+                  "pycodestyle" : {"maxLineLength": 100},
+                  "jedi_completion": {"enabled": true,
+                      "include_params": true}
+       }
+    }
 }

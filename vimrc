@@ -43,6 +43,7 @@ Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'junegunn/vim-peekaboo'
 Plugin 'frioux/vim-regedit'
 Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-markdown'
 Plugin 'metakirby5/codi.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'qpkorr/vim-bufkill'
@@ -61,9 +62,9 @@ Plugin 'ncm2/ncm2'
 Plugin 'ncm2/ncm2-bufword'
 Plugin 'ncm2/ncm2-path'
 Plugin 'ncm2/ncm2-ultisnips'
-Plugin 'ncm2/ncm2-vim-lsp'
+" Plugin 'ncm2/ncm2-vim-lsp'
 Plugin 'fgrsnau/ncm-otherbuf'
-" Plugin 'autozimu/LanguageClient-neovim'
+Plugin 'autozimu/LanguageClient-neovim'
 Plugin 'prabirshrestha/async.vim'
 Plugin 'jackguo380/vim-lsp-cxx-highlight'
 
@@ -71,9 +72,9 @@ Plugin 'othree/xml.vim'
 Plugin 'prendradjaja/vim-vertigo'
 Plugin 'm-pilia/vim-ccls'
 " vim-lsp needs special branch ultisnips-integration for snipppts to work!
-Plugin 'prabirshrestha/vim-lsp'
-Plugin 'thomasfaingnaert/vim-lsp-snippets'
-Plugin 'thomasfaingnaert/vim-lsp-ultisnips'
+" Plugin 'prabirshrestha/vim-lsp'
+" Plugin 'thomasfaingnaert/vim-lsp-snippets'
+" Plugin 'thomasfaingnaert/vim-lsp-ultisnips'
 Plugin 'liuchengxu/vista.vim'
 
 Plugin 'jceb/vim-orgmode'
@@ -573,106 +574,80 @@ let g:asyncrun_open=15
 inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 "}}}
 
-" LanguageServer{{{
-let g:lsp_highlight_references_enabled = 1
+"{{{ LSP
+let g:LanguageClient_autoStart = 0
 
-" Register ccls C++ lanuage server.
-if executable('ccls')
-   au User lsp_setup call lsp#register_server({
-      \ 'name': 'ccls',
-      \ 'cmd': {server_info->['ccls','--log-file=/tmp/cc.log']},
-      \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-      \ 'initialization_options': {
-      \   'cache': {'directory': '/tmp/ccls/cache' },
-      \   'highlight': { 'lsRanges' : v:true }
-      \ },
-      \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-      \ })
-endif
+let g:semshi#mark_selected_nodes = 0
 
-" Register the python language server.
-if executable('pyls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ 'workspace_config': {
-        \   'pyls': {
-        \     'plugins': {'pydocstyle': {'enabled': v:true},
-        \                 'pycodestyle' : {'maxLineLength': 100},
-        \                 'jedi_completion': {'include_params': v:true},
-        \     }
-        \   }
-        \ }
-        \ })
-endif
+let g:LanguageClient_serverCommands = {
+    \ 'c': ['ccls', '--log-file=/tmp/cc.log'],
+    \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
+    \ 'cuda': ['ccls', '--log-file=/tmp/cc.log'],
+    \ 'objc': ['ccls', '--log-file=/tmp/cc.log'],
+    \ 'python': ['pyls'],
+    \ }
 
-" let g:lsp_log_verbose=1
-" let g:lsp_log_file=expand('/tmp/vim_lsp')
+" au TextChangedI * call ncm2#auto_trigger()
 
-augroup lsp_folding
-autocmd!
-    autocmd FileType cpp setlocal foldmethod=expr
-    autocmd FileType cpp setlocal foldexpr=lsp#ui#vim#folding#foldexpr()
-    autocmd FileType cpp setlocal foldtext=lsp#ui#vim#folding#foldtext()
-augroup end
+let g:LanguageClient_settingsPath = '/home/dak/.vim/settings.json'
+let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
+let g:LanguageClient_hasSnippetSupport = 1
+let g:LanguageClient_hoverPreview = 'Always'
+let g:LanguageClient_useVirtualText = "All"
 
-" keybindings
-" nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
-nmap <leader>lh <Plug>(lsp-hover)
-nmap <leader>ld <Plug>(lsp-definition)
-nmap <leader>li <Plug>(lsp-implementation)
-nmap <leader>lw <Plug>(lsp-workspace-symbol)
-nmap <leader>ll <Plug>(lsp-document-symbol)
-nmap <leader>lr <Plug>(lsp-references)
-nmap <leader>la <Plug>(lsp-code-action)
-nmap <leader>le <Plug>(lsp-document-diagnostics)
-nmap <leader>lR <Plug>(lsp-rename)
-nmap <leader>lf <Plug>(lsp-document-format)
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'cpp', 'c']
 
-nmap <leader>ln <Plug>(lsp-next-error)
-
-nmap ]v <Plug>(lsp-next-reference)
-nmap [v <Plug>(lsp-previous-reference)
+" let g:LanguageClient_rootMarkers = {
+"     \ 'cpp' : ['.git', '.ccls-root', '.project'],
+"     \ 'c' : ['.git', '.ccls-root', '.project']
+"     \ }
 
 " color settings for semantic highlighting
-hi link LspCxxHlGroupMemberVariable Normal
-hi link LspCxxHlGroupNamespace cppExceptions
-hi link lspReference SpellLocal
+highlight! link LspCxxHlGroupMemberVariable Normal
+highlight! link LspCxxHlGroupNamespace cppExceptions
 
 nnoremap [lh :LspCxxHighlightDisable<cr>
 nnoremap ]lh :LspCxxHighlight<cr>
 
-"vim-ccls
-let g:ccls_levels = 3
-let g:ccls_size = 70
+" keybindings
+nnoremap <silent> <leader>lm :call LanguageClient_contextMenu()<CR>
+nnoremap <silent> <leader>lh :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> <leader>lv :call LanguageClient#textDocument_documentHighlight()<CR>
+nnoremap <silent> <leader>lV :call LanguageClient#clearDocumentHighlight()<CR>
+nnoremap <silent> <leader>ld :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <leader>li :call LanguageClient#textDocument_implementation()<CR>
+nnoremap <silent> <leader>lw :call LanguageClient#workspace_symbol()<CR>
+nnoremap <silent> <leader>ll :call LanguageClient#textDocument_documentSymbol()<CR>
+nnoremap <silent> <leader>lr :call LanguageClient#textDocument_references()<CR>
+nnoremap <silent> <leader>la :call LanguageClient#textDocument_codeAction()<CR>
+nnoremap <silent> <leader>le :call LanguageClient#explainErrorAtPoint()<CR>
 
 " Custom cross-reference calls to CCLS
 " bases
-nnoremap <leader>lb :CclsBaseHierarchy<cr>
+nnoremap <silent> <leader>lB :CclsBaseHierarchy<cr>
 " " derived
-nnoremap <leader>lD :CclsDerivedHierarchy<cr>
+nnoremap <silent> <leader>lD :CclsDerivedHierarchy<cr>
 
 " " caller
-nnoremap <leader>lc :CclsCallHierarchy<cr>
+nnoremap <silent> <leader>lc :CclsCallHierarchy<cr>
 " " callee
-nnoremap <leader>lC :CclsCalleeHierarchy<cr>
+nnoremap <silent> <leader>lC :CclsCalleeHierarchy<cr>
 
 " " $ccls/member
 " " nested classes / types in a namespace
-nnoremap <leader>ls :CclsMemberHierarchy<cr>
+nnoremap <silent> <leader>ls :CclsMemberHierarchy<cr>
 " " member functions / functions in a namespace
 " nnoremap <leader>lf :call LanguageClient#findLocations({'method':'$ccls/member','kind':3})<cr>
 " " member variables / variables in a namespace
-nnoremap <leader>lM :CclsVars<cr>
+nnoremap <silent> <leader>lM :CclsVars<cr>
 " }}}
 
 " Vista{{{
 let g:vista_echo_cursor_strategy = 'floating_win'
 let g:vista_executive_for = {
-  \ 'cpp': 'vim_lsp',
-  \ 'c': 'vim_lsp',
-  \ 'python': 'vim_lsp',
+  \ 'cpp': 'lcn',
+  \ 'c': 'lcn',
+  \ 'python': 'lcn',
   \ }
 
 let g:vista_fzf_opt=['-m','--bind','up:preview-up,down:preview-down,left:preview-page-up,right:preview-page-down','--bind','ctrl-a:select-all']
