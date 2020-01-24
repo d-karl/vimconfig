@@ -483,6 +483,8 @@ let g:ale_set_quickfix=1
 let g:ale_open_list=0
 let g:ale_completion_enabled=0
 let g:ale_completion_max_suggestions=25
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
 
 let g:ale_cmake_cmakelint_options='--filter=-linelength'
 
@@ -616,7 +618,8 @@ nnoremap <silent> <leader>lv :call LanguageClient#textDocument_documentHighlight
 nnoremap <silent> <leader>lV :call LanguageClient#clearDocumentHighlight()<CR>
 nnoremap <silent> <leader>ld :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> <leader>li :call LanguageClient#textDocument_implementation()<CR>
-nnoremap <silent> <leader>lw :call LanguageClient#workspace_symbol()<CR>
+nnoremap <silent> <leader>lw :call LanguageClient#workspace_symbol(input('Search for symbol:'))<CR>
+nnoremap <silent> <leader>lW :call LanguageClient#workspace_symbol(expand('<cword>'))<CR>
 nnoremap <silent> <leader>ll :call LanguageClient#textDocument_documentSymbol()<CR>
 nnoremap <silent> <leader>lr :call LanguageClient#textDocument_references()<CR>
 nnoremap <silent> <leader>la :call LanguageClient#textDocument_codeAction()<CR>
@@ -624,6 +627,7 @@ nnoremap <silent> <leader>le :call LanguageClient#explainErrorAtPoint()<CR>
 
 " Custom cross-reference calls to CCLS
 " bases
+let g:ccls_quiet=1
 nnoremap <silent> <leader>lB :CclsBaseHierarchy<cr>
 " " derived
 nnoremap <silent> <leader>lD :CclsDerivedHierarchy<cr>
@@ -821,6 +825,7 @@ endif
 if has('nvim')
   set inccommand=nosplit
   let g:float_preview#docked=0
+  let g:ale_virtual_text_cursor=1
   tnoremap <C-w>N <C-\><C-n>
   tnoremap <M-[> <Esc>
   tnoremap <C-v><Esc> <Esc>
