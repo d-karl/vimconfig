@@ -76,10 +76,9 @@ Plugin 'm-pilia/vim-ccls'
 " Plugin 'thomasfaingnaert/vim-lsp-snippets'
 " Plugin 'thomasfaingnaert/vim-lsp-ultisnips'
 Plugin 'liuchengxu/vista.vim'
-
 Plugin 'jceb/vim-orgmode'
-
 Plugin 'numirias/semshi'
+Plugin 'kkoomen/vim-doge'
 
 if has('nvim')
     Plugin 'ncm2/float-preview.nvim'
