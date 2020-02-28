@@ -101,8 +101,6 @@ filetype plugin indent on    " required
 let mapleader = " "
 let maplocalleader = "\\"
 
-let g:python3_host_prog='/home/dak/tools/install/bin/python3.7'
-
 " Vim Settings{{{
 "--------
 " color scheme
@@ -255,14 +253,12 @@ let g:airline#extensions#windowswap#indicator_text = 'WS'
 "}}}
 
 "Gutentags{{{
-" let g:gutentags_project_root=['CM_Project']
-let g:gutentags_cache_dir='/home/dak/.vim/tags-cache/'
-let g:gutentags_ctags_exclude=['.ccls*','.git','CMakeFiles','MakeFile*']
-let g:gutentags_project_root=['.proj_root']
-let g:gutentags_exclude_project_root = ['/fs']
+let g:gutentags_cache_dir='~/.vim/tags-cache/'
+let g:gutentags_ctags_exclude=['.ccls*','.git','CMakeFiles','MakeFile*','build*']
 let g:gutentags_generate_on_missing=0
 let g:gutentags_generate_on_new=0
 let g:gutentags_generate_on_empty_buffer=0
+let g:gutentags_enabled=0
 "}}}
 
 " FZF Config{{{
@@ -309,7 +305,7 @@ autocmd FileType cpp setlocal omnifunc=
 let g:UltiSnipsExpandTrigger="<C-j>"
 let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<C-k>"
-let g:snips_author="dak"
+let g:snips_author="KDAN"
 let g:UltiSnipsRemoveSelectModeMappings = 0
 
 " If you want :UltiSnipsEdit to split your window.
@@ -448,7 +444,7 @@ nmap <F7> :NERDTreeToggle<cr>
 " toggle guide at column 80
 nnoremap <F8> :call <SID>ToggleColorColumn()<cr>
 nmap <F9> :amakeb<CR>
-nmap <F10> :amakeb install<CR>
+nmap <F10> :amakeb install && adb push /tmp/alcapone-android/* /alsterApp<CR>
 nmap <F11> :call <SID>SetBuildFolder()<cr>
 nmap  <D-/> :
 nnoremap <leader>a :Rg<space>
@@ -476,7 +472,7 @@ nmap <leader>E <Plug>(RegEditPostfix)
 let g:ale_lint_on_text_changed='never'
 let g:ale_lint_on_enter=0
 let g:ale_lint_on_save=1
-let g:ale_fix_on_save=1
+let g:ale_fix_on_save=0
 let g:ale_tcl_nagelfar_executable='nagelfar'
 let g:ale_set_quickfix=1
 let g:ale_open_list=0
@@ -487,7 +483,10 @@ let g:ale_sign_warning = '⚠'
 
 let g:ale_cmake_cmakelint_options='--filter=-linelength'
 
-let g:ale_cpp_clangtidy_checks=['modernize*', 'bugprone*', '*cpp*', 'readability*', 'performance*', 'clang-analyzer*', '-readability-braces-around-statements', '-hicpp-braces-around-statements', '-readability-else-after-return']
+let g:ale_cpp_clangtidy_executable='clang-tidy-9'
+let g:ale_c_clangformat_executable='clang-format-9'
+
+let g:ale_cpp_clangtidy_checks=['modernize*', 'bugprone*', '*cpp*', 'readability*', 'performance*', 'clang-analyzer*', '-readability-braces-around-statements', '-hicpp-braces-around-statements', '-readability-else-after-return', '-modernize-use-trailing-return-type']
 let g:ale_c_clangtidy_checks=['readability*', 'performance*', '-readability-braces-around-statements', 'clang-analyzer*']
 
 let g:ale_linters={
@@ -496,12 +495,14 @@ let g:ale_linters={
 \   'cpp': ['clangtidy']
 \}
 
+let g:ale_fixers={
+\   'c'  : ['clang-format'],
+\   'cpp': ['clang-format']
+\}
+
 let g:ale_cpp_ccls_init_options={'cacheDirectory': '/tmp/ccls'}
 
 let g:ale_tcl_nagelfar_options='-filter "*Unknown command*"'
-
-let g:ale_fixers={'cpp': ['uncrustify'], 'c': ['uncrustify']}
-let g:ale_c_uncrustify_options='-l CPP -c /home/dak/tools/code\ fixing/cpp.cfg'
 
 augroup ale_disable_in_cpp
     autocmd!
@@ -510,6 +511,7 @@ augroup ale_disable_in_cpp
     autocmd FileType c let b:ale_fix_on_save=0
     autocmd FileType python let b:ale_enabled=0
 augroup END
+
 
 augroup ale_lint_on_save
     autocmd!
@@ -576,7 +578,7 @@ inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 "}}}
 
 "{{{ LSP
-let g:LanguageClient_autoStart = 0
+let g:LanguageClient_autoStart = 1
 
 let g:semshi#mark_selected_nodes = 0
 
@@ -590,11 +592,12 @@ let g:LanguageClient_serverCommands = {
 
 " au TextChangedI * call ncm2#auto_trigger()
 
-let g:LanguageClient_settingsPath = '/home/dak/.vim/settings.json'
+let g:LanguageClient_settingsPath = '~/.vim/settings.json'
 let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
 let g:LanguageClient_hasSnippetSupport = 1
 let g:LanguageClient_hoverPreview = 'Always'
 let g:LanguageClient_useVirtualText = "All"
+let g:LanguageClient_diagnosticsList = 'Location'
 
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'cpp', 'c']
 
@@ -663,7 +666,7 @@ let g:vista_keep_fzf_colors=1
 " Startify{{{
 let g:startify_fortune_use_unicode=1
 let g:startify_enable_special = 0
-let g:startify_session_dir = '/home/dak/.vim/session'
+let g:startify_session_dir = '~/.vim/session'
 
 autocmd User Startified for key in ['q'] |
       \ execute 'nunmap <buffer>' key | endfor
@@ -719,8 +722,24 @@ function! s:SetBuildFolder()
     call inputrestore()
 endfunction
 
-ca amake AsyncRun make -j 3
-ca amakeb AsyncRun cd =g:build_folder && make -j 3
+let g:build_command = 'make -j'
+function! s:SetBuildCommand()
+    call inputsave()
+    let l:build_command_new = input("change build command to: ", g:build_command, "shellcmd")
+    if (l:build_command_new != "")
+        let g:build_command = l:build_command_new
+    endif
+    call inputrestore()
+endfunction
+
+command! SetBuildFolder :call s:SetBuildFolder()
+command! SetBuildCommand :call s:SetBuildCommand()
+
+nmap <leader>bf :SetBuildFolder
+nmap <leader>bc :SetBuildCommand
+
+ca amake AsyncRun =g:build_command
+ca amakeb AsyncRun =g:build_command -C =g:build_folder
 ca atest AsyncRun cd =g:build_folder && ctest -V
 augroup python_unittest
     autocmd!
