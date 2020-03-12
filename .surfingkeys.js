@@ -67,3 +67,4 @@ mapsitekeys("youtube.com", [
   ["<Space>", "Play/pause", Hint(".ytp-play-button")],
 ], { leader: "\\" });
 
+aceVimMap('jk', '<Esc>', 'insert');
