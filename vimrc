@@ -79,6 +79,7 @@ Plugin 'liuchengxu/vista.vim'
 Plugin 'jceb/vim-orgmode'
 Plugin 'numirias/semshi'
 Plugin 'kkoomen/vim-doge'
+Plugin 'wellle/context.vim'
 
 if has('nvim')
     Plugin 'ncm2/float-preview.nvim'
@@ -444,10 +445,11 @@ nmap <F7> :NERDTreeToggle<cr>
 " toggle guide at column 80
 nnoremap <F8> :call <SID>ToggleColorColumn()<cr>
 nmap <F9> :amakeb<CR>
-nmap <F10> :amakeb install && adb push /tmp/alcapone-android/* /alsterApp<CR>
+nmap <F10> :AsyncRun ninja -C build-android install && adb shell killall alcapone ; adb push /tmp/alcapone-android/* /alsterApp<CR>
 nmap <F11> :call <SID>SetBuildFolder()<cr>
 nmap  <D-/> :
 nnoremap <leader>a :Rg<space>
+nnoremap <leader>A :Rg<space>=expand('<cword>')<cr><cr>
 nnoremap <leader>v V`]
 "}}}
 
@@ -607,7 +609,8 @@ let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'cpp', 'c']
 "     \ }
 
 " color settings for semantic highlighting
-highlight! link LspCxxHlGroupMemberVariable Normal
+highlight! link LspCxxHlGroupMemberVariable cppStlIterator
+highlight! link LspCxxHlSymParameter vimFuncVar
 highlight! link LspCxxHlGroupNamespace cppExceptions
 
 nnoremap [lh :LspCxxHighlightDisable<cr>
@@ -696,6 +699,9 @@ let g:yoinkSavePersistently=1
 
 au FileType html setlocal shiftwidth=2
 
+let g:context_border_char = '－'
+let g:context_enabled = 0
+
 " -----------------
 " Useful Functions
 "------------------
@@ -712,7 +718,7 @@ set complete=.,w,b,u,t,k
 
 " Personal bindings{{{
 " abbreviation for make in quickfix list
-let g:build_folder = 'build-debug'
+let g:build_folder = 'build-relwithdeb'
 function! s:SetBuildFolder()
     call inputsave()
     let l:build_folder_new = input("change build folder to: ", g:build_folder, "dir")
@@ -722,7 +728,7 @@ function! s:SetBuildFolder()
     call inputrestore()
 endfunction
 
-let g:build_command = 'make -j'
+let g:build_command = 'make -j8'
 function! s:SetBuildCommand()
     call inputsave()
     let l:build_command_new = input("change build command to: ", g:build_command, "shellcmd")
@@ -732,6 +738,11 @@ function! s:SetBuildCommand()
     call inputrestore()
 endfunction
 
+function! s:RemoveDeadHistEntry()
+    call histdel(":", "^a$")
+endfunction
+
+command! RemoveDeadHistEntry : call s:RemoveDeadHistEntry()
 command! SetBuildFolder :call s:SetBuildFolder()
 command! SetBuildCommand :call s:SetBuildCommand()
 
@@ -914,5 +925,8 @@ set guioptions=cm
 "     set notermguicolors
 "     set background=dark
 " endif
+
+" remove dead hist entries
+call s:RemoveDeadHistEntry()
 
 " vim:sw=4:ts=4:tw=79:fdl=0:fdm=marker:

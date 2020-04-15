@@ -5,7 +5,7 @@
       "ignoredRootPaths" : ["/fs"]
     },
     "pyls": {
-      "plugins": {"pydocstyle": {"enabled": true},
+      "plugins": {"pydocstyle": {"enabled": false},
                   "pycodestyle" : {"maxLineLength": 100},
                   "jedi_completion": {"enabled": true,
                       "include_params": true}
