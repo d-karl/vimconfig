@@ -412,6 +412,8 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 " Enable spell check for commit messages
 autocmd FileType gitcommit setlocal spell
 
+" Get rid of deprecated q map in fugitive
+noremap q q
 noremap <leader>gd :Gvdiff<CR>
 noremap <leader>gs :Gstatus<CR>
 noremap <leader>gsd :Gsdiff<CR>
