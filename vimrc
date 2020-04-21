@@ -34,6 +34,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'mileszs/ack.vim'
 Plugin 'tpope/vim-fugitive'
+Plugin 'rbong/vim-flog'
 " Plugin 'scrooloose/syntastic'
 Plugin 'w0rp/ale'
 Plugin 'luochen1990/rainbow'
@@ -401,6 +402,8 @@ let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
+
+let g:fzf_preview_window = ''
 
 " navigate preview window in GFiles?
 let $FZF_DEFAULT_OPTS = '-m --bind up:preview-up,down:preview-down,left:preview-page-up,right:preview-page-down --bind ctrl-a:select-all'
