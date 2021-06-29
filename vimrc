@@ -709,6 +709,10 @@ nmap p <plug>(YoinkPaste_p)
 nmap P <plug>(YoinkPaste_P)
 "}}}
 
+"Doge{{{
+nmap <leader>lg :DogeGenerate<cr>
+"}}}
+
 au FileType html setlocal shiftwidth=2
 
 let g:context_border_char = '－'
