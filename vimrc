@@ -707,7 +707,6 @@ nmap <c-n> <plug>(YoinkPostPasteSwapBack)
 nmap <c-p> <plug>(YoinkPostPasteSwapForward)
 nmap p <plug>(YoinkPaste_p)
 nmap P <plug>(YoinkPaste_P)
-let g:yoinkSavePersistently=1
 "}}}
 
 au FileType html setlocal shiftwidth=2
@@ -868,6 +867,7 @@ if has('nvim')
   set inccommand=nosplit
   let g:float_preview#docked=0
   let g:ale_virtual_text_cursor=1
+  let g:yoinkSavePersistently=1
   tnoremap <C-w>N <C-\><C-n>
   tnoremap <M-[> <Esc>
   tnoremap <C-v><Esc> <Esc>
