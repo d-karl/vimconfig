@@ -409,19 +409,24 @@ let g:fzf_preview_window = ''
 let $FZF_DEFAULT_OPTS = '-m --bind up:preview-up,down:preview-down,left:preview-page-up,right:preview-page-down --bind ctrl-a:select-all'
 "}}}
 
-" vim fugitive `{{{
+" vim fugitive - flog `{{{
 autocmd BufReadPost fugitive://* set bufhidden=delete
+nnoremap <leader>gsu :Git push origin --set-upstream =expand('<cWORD>')<cr><cr>
+nnoremap <leader>gdm :Git push origin --set-upstream =expand('<cWORD>')<cr><cr>:copen<cr>2j2W"+yiW
 
 " Enable spell check for commit messages
 autocmd FileType gitcommit setlocal spell
 
 " Get rid of deprecated q map in fugitive
-noremap q q
-noremap <leader>gd :Gvdiff<CR>
-noremap <leader>gs :Gstatus<CR>
-noremap <leader>gsd :Gsdiff<CR>
-noremap <leader>gvd :Gvdiff<CR>
-noremap <leader>gc  :Gcommit<CR>
+nnoremap q q
+nnoremap <leader>gd :Gvdiff<CR>
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gsd :Gsdiff<CR>
+nnoremap <leader>gvd :Gvdiff<CR>
+nnoremap <leader>gc  :Gcommit<CR>
+
+nnoremap <leader>gk :Flogsplit<CR>
+nnoremap <leader>gka :Flogsplit -all<CR>
 "}}}
 
 " always split windows vertically{{{
