@@ -496,6 +496,9 @@ let g:ale_sign_warning = '⚠'
 let g:ale_cmake_cmakelint_options='--filter=-linelength'
 
 let g:ale_cpp_clangtidy_executable='clang-tidy-9'
+let g:ale_cpp_clangtidy_options='-std=c++17'
+let g:ale_c_clangtidy_executable='clang-tidy-9'
+let g:ale_c_clangtidy_options='-x c++ -std=c++17'
 let g:ale_c_clangformat_executable='clang-format-9'
 
 let g:ale_cpp_clangtidy_checks=['modernize*', 'bugprone*', '*cpp*', 'readability*', 'performance*', 'clang-analyzer*', '-readability-braces-around-statements', '-hicpp-braces-around-statements', '-readability-else-after-return', '-modernize-use-trailing-return-type']
