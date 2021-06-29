@@ -459,7 +459,7 @@ nmap <F7> :NERDTreeToggle<cr>
 " toggle guide at column 80
 nnoremap <F8> :call <SID>ToggleColorColumn()<cr>
 nmap <F9> :amakeb<CR>
-nmap <F10> :AsyncRun ninja -C build-android install && adb shell killall alcapone ; adb push /tmp/alcapone-android/* /alsterApp<CR>
+nmap <F10> :AsyncRun ninja -C build-android install && ~/development/android/push_stripped_alcapone.sh<CR>
 nmap <F11> :call <SID>SetBuildFolder()<cr>
 nmap  <D-/> :
 nnoremap <leader>a :Rg<space>
@@ -572,7 +572,7 @@ let g:codi#autocmd='InsertLeave'
 let g:codi#log='/tmp/codi.log'
 let g:codi#interpreters = {
    \ 'python': {
-       \ 'bin': 'python3.7',
+       \ 'bin': 'python3',
        \ 'prompt': '^\(>>>\|\.\.\.\) ',
        \ },
    \ }
@@ -748,7 +748,7 @@ function! s:SetBuildFolder()
     call inputrestore()
 endfunction
 
-let g:build_command = 'make -j8'
+let g:build_command = 'ninja'
 function! s:SetBuildCommand()
     call inputsave()
     let l:build_command_new = input("change build command to: ", g:build_command, "shellcmd")
@@ -760,6 +760,7 @@ endfunction
 
 function! s:RemoveDeadHistEntry()
     call histdel(":", "^a$")
+    call histdel(":", "^c$")
 endfunction
 
 command! RemoveDeadHistEntry : call s:RemoveDeadHistEntry()
@@ -949,5 +950,9 @@ set guioptions=cm
 
 " remove dead hist entries
 call s:RemoveDeadHistEntry()
+
+if getcwd() =~# '/reports/.*'
+    colorscheme Tomorrow-Night-Eighties
+endif
 
 " vim:sw=4:ts=4:tw=79:fdl=0:fdm=marker:
