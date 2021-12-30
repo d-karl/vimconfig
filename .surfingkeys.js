@@ -1,11 +1,32 @@
 // Modify Surfingkey settings
+// Settings change for v1.0.0
+const {
+    aceVimMap,
+    mapkey,
+    imap,
+    imapkey,
+    getClickableElements,
+    vmapkey,
+    map,
+    unmap,
+    cmap,
+    addSearchAlias,
+    removeSearchAlias,
+    tabOpenLink,
+    readText,
+    Clipboard,
+    Front,
+    Hints,
+    Visual,
+    RUNTIME
+} = api;
 
 Hints.characters = 'asdfgqwertzxcvbyuiophjklnm'
 settings.omnibarSuggestion = true
 // currently not working
 // settings.nextLinkRegex = '/((>>|next|nächst(.)*)+)/i'
 // settings.prevLinkRegex = '/((<<|prev(ious)?|vorherig)+)/i'
-addSearchAliasX('y', 'youtube', 'https://www.youtube.com/search?q=');
+addSearchAlias('y', 'youtube', 'https://www.youtube.com/search?q=');
 
 // Navigation
 map('F', 'gf'); // open in new unactive tab
