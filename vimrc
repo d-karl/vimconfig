@@ -413,7 +413,7 @@ let $FZF_DEFAULT_OPTS = '-m --bind up:preview-up,down:preview-down,left:preview-
 
 " vim fugitive - flog `{{{
 autocmd BufReadPost fugitive://* set bufhidden=delete
-nnoremap <leader>gsu :Git push origin --set-upstream =expand('<cWORD>')<cr><cr>
+nnoremap <leader>gpu :Git push origin --set-upstream =expand('<cWORD>')<cr><cr>
 nnoremap <leader>gdm :Git push origin --set-upstream =expand('<cWORD>')<cr><cr>:copen<cr>2j2W"+yiW
 
 " Enable spell check for commit messages
@@ -422,10 +422,11 @@ autocmd FileType gitcommit setlocal spell
 " Get rid of deprecated q map in fugitive
 nnoremap q q
 nnoremap <leader>gd :Gvdiff<CR>
-nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gs :Git<CR>
 nnoremap <leader>gsd :Gsdiff<CR>
 nnoremap <leader>gvd :Gvdiff<CR>
 nnoremap <leader>gc  :Gcommit<CR>
+nnoremap <leader>gf :Git clang-format<CR>
 
 nnoremap <leader>gk :Flogsplit<CR>
 nnoremap <leader>gka :Flogsplit -all<CR>
