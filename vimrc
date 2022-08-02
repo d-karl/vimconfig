@@ -383,13 +383,13 @@ noremap <leader>fM :Maps<CR>
 noremap <leader>fgl :Commits<CR>
 noremap <leader>fs :Snippets<CR>
 noremap <leader>fgs :GFiles?<CR>
-noremap <leader>fgf :GFiles<CR>
+noremap <leader>fgf :GFiles --recurse-submodules<CR>
 noremap <leader>fq :QuickFix<CR>
 
 " auto completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-l> <plug>(fzf-complete-line)
+imap <c-x><c-K> <plug>(fzf-complete-word)
+imap <c-x><c-F> <plug>(fzf-complete-path)
+imap <c-x><c-L> <plug>(fzf-complete-line)
 " CTRL-A CTRL-Q to select all and build quickfix list
 
 function! s:build_quickfix_list(lines)
