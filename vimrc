@@ -442,7 +442,13 @@ silent! set splitvertical
 let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle
 nnoremap <leader>ra :RainbowToggle<CR>
 let g:rainbow_conf = {
-            \ 'ctermfgs': ['lightblue', 'lightyellow', 'red', 'darkgreen', 'darkyellow', 'lightred', 'yellow', 'cyan', 'magenta', 'white']
+            \ 'ctermfgs': ['lightblue', 'lightyellow', 'red', 'darkgreen', 'darkyellow', 'lightred', 'yellow', 'cyan', 'magenta', 'white'],
+            \	'separately': {
+            \		'*': {},
+            \       'cpp': {
+            \	        'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold', 'start=/</ end=/>/ fold']
+            \        },
+            \   },
             \}
 "}}}
 
