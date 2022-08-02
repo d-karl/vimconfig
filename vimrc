@@ -363,8 +363,6 @@ let NERDTreeWinPos = "right"
 
 " nerdcommenter{{{
 let NERDSpaceDelims=1
-" nmap <D-/> :NERDComToggleComment<cr>
-let NERDCompactSexyComs=1
 "}}}
 
 " fzf vim keybindings{{{
