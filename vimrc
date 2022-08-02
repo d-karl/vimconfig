@@ -464,9 +464,10 @@ nmap <F7> :NERDTreeToggle<cr>
 " toggle guide at column 80
 nnoremap <F8> :call <SID>ToggleColorColumn()<cr>
 nmap <F9> :amakeb<CR>
-nmap <F10> :AsyncRun ninja -C build-android install && ~/development/android/push_stripped_alcapone.sh<CR>
+nmap <F10> :AsyncRun ninja -C build-android install-alcapone install-alster-services && ~/development/android/push_stripped_alcapone.sh<CR>
 nmap <F11> :call <SID>SetBuildFolder()<cr>
-nmap  <D-/> :
+nmap <F12> :atest<CR>
+
 nnoremap <leader>a :Rg<space>
 nnoremap <leader>A :Rg<space>=expand('<cword>')<cr><cr>
 nnoremap <leader>v V`]
