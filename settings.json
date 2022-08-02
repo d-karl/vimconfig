@@ -1,8 +1,7 @@
 {
     "ccls": {
       "cache": {"directory": "/tmp/ccls/cache" },
-      "highlight": { "lsRanges" : true },
-      "ignoredRootPaths" : ["/fs"]
+      "highlight": { "lsRanges" : true }
     },
     "pyls": {
       "plugins": {"pydocstyle": {"enabled": false},
