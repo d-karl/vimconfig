@@ -419,6 +419,18 @@ nnoremap <leader>gdm :Git push origin --set-upstream =expand('<cWORD>')<cr><cr>
 " Enable spell check for commit messages
 autocmd FileType gitcommit setlocal spell
 
+function! s:ClangFormatStaged()
+    let changed_files = split(system('git diff --cached --name-only --diff-filter=ACMRT'))
+
+    if empty(changed_files)
+        return
+    endif
+
+    execute("Git clang-format " . join(changed_files, " "))
+endfunction
+
+command! ClangFormatStaged :call s:ClangFormatStaged()
+
 " Get rid of deprecated q map in fugitive
 nnoremap q q
 nnoremap <leader>gd :Gvdiff<CR>
@@ -426,7 +438,7 @@ nnoremap <leader>gs :Git<CR>
 nnoremap <leader>gsd :Gsdiff<CR>
 nnoremap <leader>gvd :Gvdiff<CR>
 nnoremap <leader>gc  :Gcommit<CR>
-nnoremap <leader>gf :Git clang-format<CR>
+nnoremap <leader>gf :ClangFormatStaged<CR>
 
 nnoremap <leader>gk :Flogsplit<CR>
 nnoremap <leader>gka :Flogsplit -all<CR>
