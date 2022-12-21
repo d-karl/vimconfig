@@ -624,7 +624,7 @@ let g:LanguageClient_serverCommands = {
     \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
     \ 'cuda': ['ccls', '--log-file=/tmp/cc.log'],
     \ 'objc': ['ccls', '--log-file=/tmp/cc.log'],
-    \ 'python': ['pyls'],
+    \ 'python': ['pyls', '-vv', '--log-file', '/tmp/pyls.log'],
     \ }
 
 " au TextChangedI * call ncm2#auto_trigger()
