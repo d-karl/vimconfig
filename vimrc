@@ -366,6 +366,9 @@ let NERDSpaceDelims=1
 "}}}
 
 " fzf vim keybindings{{{
+command! GFilesPwd
+  \ call fzf#vim#gitfiles("--recurse-submodules", fzf#vim#with_preview({'dir': getcwd()}))
+
 noremap <leader>ff :Files<CR>
 noremap <leader>fb :Buffers<CR>
 noremap <leader>o  :Buffers<CR>
@@ -383,7 +386,7 @@ noremap <leader>fM :Maps<CR>
 noremap <leader>fgl :Commits<CR>
 noremap <leader>fs :Snippets<CR>
 noremap <leader>fgs :GFiles?<CR>
-noremap <leader>fgf :GFiles --recurse-submodules<CR>
+noremap <leader>fgf :GFilesPwd<CR>
 noremap <leader>fq :QuickFix<CR>
 
 " auto completion
