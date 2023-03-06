@@ -5,7 +5,7 @@
     },
     "pyls": {
       "plugins": {"pydocstyle": {"enabled": false},
-                  "pycodestyle" : {"maxLineLength": 100},
+                  "pycodestyle" : {"maxLineLength": 180},
                   "jedi_completion": {"enabled": true,
                       "include_params": true}
        }
