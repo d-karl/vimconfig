@@ -632,7 +632,7 @@ let g:LanguageClient_serverCommands = {
 
 " au TextChangedI * call ncm2#auto_trigger()
 
-let g:LanguageClient_settingsPath = '~/.vim/settings.json'
+let g:LanguageClient_settingsPath = '/home/kdan/.vim/settings.json'
 let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
 let g:LanguageClient_hasSnippetSupport = 1
 let g:LanguageClient_hoverPreview = 'Always'
@@ -962,6 +962,8 @@ call GoColorsDark()
 "}}}
 
 set guioptions=cm
+
+let g:python3_host_prog="python3.10"
 
 " when running inside tmux
 " if $TMUX != ''
